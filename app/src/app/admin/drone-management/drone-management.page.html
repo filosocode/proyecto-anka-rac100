@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de Drones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="drones.length > 0; else empty">
+    <ion-item *ngFor="let d of drones">
+      <ion-label>
+        <h3>{{ d.model }}</h3>
+        <p>Serie: {{ d.serial }}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="d.status === 'active' ? 'success' : 'medium'">{{ d.status }}</ion-badge>
+    </ion-item>
+  </ion-list>
+  <ng-template #empty>
+    <div class="ion-text-center ion-padding"><p>No hay drones registrados.</p></div>
+  </ng-template>
+</ion-content>

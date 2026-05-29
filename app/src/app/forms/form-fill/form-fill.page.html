@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/forms"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ template?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <ion-list>
+      <ng-container *ngFor="let field of template?.fields">
+        <ion-item>
+          <ion-label position="stacked">
+            {{ field.label }}<span *ngIf="field.required" style="color:red"> *</span>
+          </ion-label>
+          <ion-input [formControlName]="field.name"
+            [type]="field.type === 'number' ? 'number' : 'text'">
+          </ion-input>
+        </ion-item>
+        <ion-note *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched" color="danger">
+          Este campo es obligatorio
+        </ion-note>
+      </ng-container>
+    </ion-list>
+
+    <ion-button expand="block" fill="outline" class="ion-margin-top" (click)="saveDraft()">
+      Guardar borrador
+    </ion-button>
+    <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="form.invalid">
+      Enviar formulario
+    </ion-button>
+  </form>
+</ion-content>

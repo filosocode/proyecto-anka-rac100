@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/forms"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Borradores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="drafts.length > 0; else empty">
+    <ion-item *ngFor="let d of drafts">
+      <ion-label>
+        <h3>Borrador guardado</h3>
+        <p>{{ d.updatedAt | date:'short' }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="warning">borrador</ion-badge>
+      <ion-button slot="end" fill="clear" (click)="open(d)">Editar</ion-button>
+      <ion-button slot="end" fill="clear" color="danger" (click)="delete(d)">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+  <ng-template #empty>
+    <div class="ion-text-center ion-padding"><p>No hay borradores guardados.</p></div>
+  </ng-template>
+</ion-content>

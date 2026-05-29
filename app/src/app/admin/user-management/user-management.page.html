@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="users.length > 0; else empty">
+    <ion-item *ngFor="let u of users">
+      <ion-label>
+        <h3>{{ u.name }}</h3>
+        <p>{{ u.email }}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="u.role === 'admin' ? 'danger' : 'primary'">{{ u.role }}</ion-badge>
+    </ion-item>
+  </ion-list>
+  <ng-template #empty>
+    <div class="ion-text-center ion-padding"><p>No hay usuarios registrados.</p></div>
+  </ng-template>
+</ion-content>

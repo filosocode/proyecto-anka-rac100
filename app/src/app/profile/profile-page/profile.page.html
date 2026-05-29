@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mi Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list *ngIf="user">
+    <ion-item lines="none">
+      <ion-label>
+        <h2>{{ user.name }}</h2>
+        <p>{{ user.email }}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="user.role === 'admin' ? 'danger' : 'primary'">{{ user.role }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="danger" class="ion-margin-top" (click)="logout()">
+    Cerrar sesión
+  </ion-button>
+</ion-content>

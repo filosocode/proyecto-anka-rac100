@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Historial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="entries.length > 0; else empty">
+    <ion-item *ngFor="let e of entries">
+      <ion-label>
+        <h3>Formulario enviado</h3>
+        <p>{{ e.createdAt | date:'medium' }}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="e.status === 'synced' ? 'success' : 'warning'">
+        {{ e.status }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+  <ng-template #empty>
+    <div class="ion-text-center ion-padding"><p>Aún no hay registros en el historial.</p></div>
+  </ng-template>
+</ion-content>

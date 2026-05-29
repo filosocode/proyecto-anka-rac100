@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Formularios</ion-title>
+    <ion-button slot="end" fill="clear" (click)="openDrafts()">Borradores</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="templates.length > 0; else empty">
+    <ion-item *ngFor="let t of templates" (click)="open(t)" button detail>
+      <ion-label>{{ t.title }}</ion-label>
+      <ion-badge slot="end" color="medium">{{ t.fields.length }} campos</ion-badge>
+    </ion-item>
+  </ion-list>
+  <ng-template #empty>
+    <div class="ion-text-center ion-padding">
+      <p>No hay formularios disponibles.</p>
+    </div>
+  </ng-template>
+</ion-content>

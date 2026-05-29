@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>ANKA RAC 100</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="login()">
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="usuario@anka.com"></ion-input>
+    </ion-item>
+    <ion-note *ngIf="form.get('email')?.invalid && form.get('email')?.touched" color="danger">
+      Email inválido
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="stacked">Contraseña</ion-label>
+      <ion-input formControlName="password" type="password" placeholder="••••••"></ion-input>
+    </ion-item>
+    <ion-note *ngIf="form.get('password')?.invalid && form.get('password')?.touched" color="danger">
+      Mínimo 6 caracteres
+    </ion-note>
+
+    <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="form.invalid">
+      Ingresar
+    </ion-button>
+  </form>
+</ion-content>
