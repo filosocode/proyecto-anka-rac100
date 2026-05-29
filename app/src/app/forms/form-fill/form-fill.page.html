@@ -3,9 +3,70 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home/forms"></ion-back-button>
     </ion-buttons>
-    <ion-title>Llenar Formulario</ion-title>
+    <ion-title>{{ template?.title ?? 'Formulario' }}</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content class="ion-padding">
-  <p>Formulario dinámico — en construcción (rama: feature/forms-ruben)</p>
+
+  <!-- Mientras no haya plantilla cargada -->
+  @if (!template) {
+    <p class="ion-text-center">Cargando formulario...</p>
+  }
+
+  <!-- Formulario dinámico -->
+  @if (template) {
+    <ion-list>
+      @for (campo of getCampos(); track campo.name) {
+
+        <!-- Campo de texto o número -->
+        @if (campo.type === 'text' || campo.type === 'number') {
+          <ion-item>
+            <ion-label position="floating">
+              {{ campo.label }}
+              @if (campo.required) { <ion-text color="danger">*</ion-text> }
+            </ion-label>
+            <ion-input
+              [type]="campo.type"
+              [(ngModel)]="formData[campo.name]">
+            </ion-input>
+          </ion-item>
+        }
+
+        <!-- Campo select (lista de opciones) -->
+        @if (campo.type === 'select') {
+          <ion-item>
+            <ion-label position="floating">
+              {{ campo.label }}
+              @if (campo.required) { <ion-text color="danger">*</ion-text> }
+            </ion-label>
+            <ion-select [(ngModel)]="formData[campo.name]" placeholder="Selecciona...">
+              @for (opcion of campo.options; track opcion) {
+                <ion-select-option [value]="opcion">{{ opcion }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        }
+
+      }
+    </ion-list>
+
+    <!-- Error de validación -->
+    @if (errorMessage) {
+      <ion-text color="danger">
+        <p class="ion-padding-start">{{ errorMessage }}</p>
+      </ion-text>
+    }
+
+    <!-- Botones de acción -->
+    <div class="ion-padding-top">
+      <ion-button expand="block" fill="outline" (click)="guardarBorrador()">
+        Guardar borrador
+      </ion-button>
+      <ion-button expand="block" class="ion-margin-top" (click)="enviar()">
+        Enviar formulario
+      </ion-button>
+    </div>
+  }
+
 </ion-content>
