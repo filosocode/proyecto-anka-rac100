@@ -34,6 +34,9 @@ export class FormFillPage implements OnInit {
   // Mensaje de error si faltan campos requeridos
   errorMessage = '';
 
+  // ID del borrador que se está editando (si aplica)
+  editingEntryId: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -44,50 +47,92 @@ export class FormFillPage implements OnInit {
 
   ngOnInit(): void {
     // TODO 1: Obtener el id de la plantilla desde la URL.
-    //   Usa: const id = this.route.snapshot.paramMap.get('id');
-    //   Eso lee el ':id' que está en la ruta '/home/forms/fill/:id'
+    const templateId = this.route.snapshot.paramMap.get('id');
 
     // TODO 2: Cargar la plantilla usando el id.
-    //   Usa: this.template = this.formService.getTemplate(id);
-    //   Si this.template es null, puede ir de regreso: this.router.navigate(['/home/forms']);
+    if (templateId) {
+      this.template = this.formService.getTemplate(templateId);
+    }
 
-    // TODO 3: Inicializar formData con los campos vacíos.
-    //   Recorre this.template.fields y para cada campo haz:
-    //   this.formData[campo.name] = '';
-    //   Así el [(ngModel)] del HTML tiene a dónde enlazarse.
+    if (!this.template) {
+      this.router.navigate(['/home/forms']);
+      return;
+    }
+
+    // --- REFINAMIENTO: PRECARGADO DE DATOS ---
+    // Si viene un 'draftId' por query params, cargamos el borrador
+    const draftId = this.route.snapshot.queryParamMap.get('draftId');
+    if (draftId) {
+      const existingEntry = this.formService.getEntry(draftId);
+      if (existingEntry) {
+        this.editingEntryId = draftId;
+        this.formData = { ...existingEntry.data };
+        return; // Terminamos, ya cargamos los datos reales
+      }
+    }
+
+    // TODO 3: Inicializar formData con los campos vacíos (solo si no se cargó un borrador)
+    this.template.fields.forEach(campo => {
+      this.formData[campo.name] = '';
+    });
   }
 
   guardarBorrador(): void {
     // TODO 4: Crear un objeto FormEntry con status 'draft' y guardarlo.
-    //   Necesitas: id (usa this.formService.generateId()),
-    //              templateId (this.template!.id),
-    //              pilotId (this.auth.currentUser()!.id),
-    //              data (this.formData),
-    //              status: 'draft'
-    //   Luego: this.formService.saveEntry(entry);
-    //   Y navegar de regreso: this.router.navigate(['/home/forms']);
+    if (!this.template) return;
+
+    const entry: FormEntry = {
+      // Si estamos editando, usamos el ID original, de lo contrario generamos uno nuevo
+      id: this.editingEntryId || this.formService.generateId(),
+      templateId: this.template.id,
+      pilotId: this.auth.currentUser()?.id || 'unknown',
+      data: this.formData,
+      status: 'draft',
+      createdAt: new Date().toISOString(), // Esto será sobrescrito en el service si ya existe
+      updatedAt: new Date().toISOString(),
+    };
+
+    this.formService.saveEntry(entry);
+    this.router.navigate(['/home/forms']);
   }
 
   async enviar(): Promise<void> {
     // TODO 5: Validar que todos los campos requeridos estén llenos.
-    //   Recorre this.template!.fields, y si un campo tiene required=true
-    //   y this.formData[campo.name] está vacío, pon un mensaje en this.errorMessage y return.
+    this.errorMessage = '';
+
+    for (const campo of this.template?.fields || []) {
+      if (campo.required && !this.formData[campo.name]) {
+        this.errorMessage = `El campo "${campo.label}" es obligatorio.`;
+        return;
+      }
+    }
 
     // TODO 6 (si pasa la validación): mostrar un diálogo de confirmación.
-    //   Usa AlertController para preguntar "¿Enviar el formulario?"
-    //   Si el usuario confirma: crea una entrada con status 'submitted' y guárdala.
-    //   Luego navega a '/home/history'.
-    //
-    //   Ejemplo de diálogo:
-    //   const alert = await this.alertCtrl.create({
-    //     header: 'Confirmar envío',
-    //     message: '¿Deseas enviar el formulario?',
-    //     buttons: [
-    //       { text: 'Cancelar', role: 'cancel' },
-    //       { text: 'Enviar', handler: () => { /* guardar y navegar */ } },
-    //     ],
-    //   });
-    //   await alert.present();
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar envío',
+      message: '¿Deseas enviar el formulario?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Enviar',
+          handler: () => {
+            const entry: FormEntry = {
+              // Si estamos editando, usamos el ID original, de lo contrario generamos uno nuevo
+              id: this.editingEntryId || this.formService.generateId(),
+              templateId: this.template!.id,
+              pilotId: this.auth.currentUser()?.id || 'unknown',
+              data: this.formData,
+              status: 'submitted',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            };
+            this.formService.saveEntry(entry);
+            this.router.navigate(['/home/history']);
+          }
+        },
+      ],
+    });
+    await alert.present();
   }
 
   // Retorna los campos que se deben mostrar en el formulario

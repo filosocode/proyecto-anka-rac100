@@ -49,31 +49,28 @@ export class FormListPage implements OnInit {
 
   ngOnInit(): void {
     // TODO 1: Cargar las plantillas disponibles.
-    //   Usa this.formService.getTemplates() y guarda el resultado en this.templates.
-    //   Ejemplo: this.templates = this.formService.getTemplates();
+    this.templates = this.formService.getTemplates();
 
     // TODO 2: Contar los borradores guardados.
-    //   Usa this.formService.getDrafts().length y guarda en this.draftCount.
-    //   Ejemplo: this.draftCount = this.formService.getDrafts().length;
+    this.draftCount = this.formService.getDrafts().length;
   }
 
   // Se llama cada vez que el usuario regresa a esta pantalla
   ionViewWillEnter(): void {
     // TODO 3: Volver a cargar los datos (por si guardaron un nuevo borrador).
-    //   Repite lo mismo que en ngOnInit — actualiza templates y draftCount.
+    this.templates = this.formService.getTemplates();
+    this.draftCount = this.formService.getDrafts().length;
   }
 
   // Navega a la pantalla de llenado del formulario con el id de la plantilla
   abrirFormulario(templateId: string): void {
     // TODO 4: Navegar a la ruta de llenado de formulario.
-    //   La ruta es: '/home/forms/fill/' + templateId
-    //   Ejemplo: this.router.navigate(['/home/forms/fill', templateId]);
+    this.router.navigate(['/home/forms/fill', templateId]);
   }
 
   // Navega a la pantalla de borradores
   verBorradores(): void {
     // TODO 5: Navegar a la pantalla de borradores.
-    //   La ruta es: '/home/forms/draft'
-    //   Ejemplo: this.router.navigate(['/home/forms/draft']);
+    this.router.navigate(['/home/forms/draft']);
   }
 }

@@ -37,32 +37,37 @@ export class FormDraftPage {
   // Se llama cada vez que el usuario entra a esta pantalla
   ionViewWillEnter(): void {
     // TODO 1: Cargar los borradores.
-    //   Usa: this.drafts = this.formService.getDrafts();
+    this.drafts = this.formService.getDrafts();
   }
 
   // Abre un borrador para continuar editándolo
   continuarBorrador(draft: FormEntry): void {
     // TODO 2: Navegar a la pantalla de llenado con el templateId del borrador.
-    //   Usa: this.router.navigate(['/home/forms/fill', draft.templateId]);
-    //   (Nota: en una versión mejorada se pueden pasar los datos del borrador)
+    // Pasamos el id del borrador por medio de queryParams para poder precargar los datos.
+    this.router.navigate(['/home/forms/fill', draft.templateId], {
+      queryParams: { draftId: draft.id }
+    });
   }
 
   // Elimina un borrador previa confirmación
   async eliminarBorrador(draft: FormEntry): Promise<void> {
     // TODO 3: Mostrar un diálogo de confirmación antes de borrar.
-    //   Si el usuario confirma, llama a: this.formService.deleteEntry(draft.id);
-    //   Luego actualiza la lista: this.drafts = this.formService.getDrafts();
-    //
-    //   Ejemplo de diálogo:
-    //   const alert = await this.alertCtrl.create({
-    //     header: 'Eliminar borrador',
-    //     message: '¿Seguro que deseas eliminar este borrador?',
-    //     buttons: [
-    //       { text: 'Cancelar', role: 'cancel' },
-    //       { text: 'Eliminar', role: 'destructive', handler: () => { /* borrar */ } },
-    //     ],
-    //   });
-    //   await alert.present();
+    const alert = await this.alertCtrl.create({
+      header: 'Eliminar borrador',
+      message: '¿Seguro que deseas eliminar este borrador?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        { 
+          text: 'Eliminar', 
+          role: 'destructive', 
+          handler: () => { 
+            this.formService.deleteEntry(draft.id);
+            this.drafts = this.formService.getDrafts();
+          } 
+        },
+      ],
+    });
+    await alert.present();
   }
 
   // Retorna el nombre de la plantilla de un borrador
