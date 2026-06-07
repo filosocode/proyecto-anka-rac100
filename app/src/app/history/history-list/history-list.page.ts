@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // Necesario para [routerLink]
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
-  IonList, IonItem, IonLabel, IonBadge, IonIcon,
+  IonList, IonItem, IonLabel, IonBadge, IonIcon, 
+  IonButtons, IonBackButton // Añadidos para navegación
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { checkmarkCircleOutline, timeOutline } from 'ionicons/icons';
@@ -11,46 +14,51 @@ import { FormService } from '../../shared/services/form.service';
 @Component({
   selector: 'app-history-list',
   templateUrl: 'history-list.page.html',
+  standalone: true,
   imports: [
+    CommonModule, RouterModule,
     IonContent, IonHeader, IonTitle, IonToolbar,
-    IonList, IonItem, IonLabel, IonBadge, IonIcon,
+    IonList, IonItem, IonLabel, IonBadge, IonIcon, 
+    IonButtons, IonBackButton
   ],
 })
 export class HistoryListPage {
 
-  // Lista de formularios enviados (no borradores)
   entries: FormEntry[] = [];
 
   constructor(private formService: FormService) {
     addIcons({ checkmarkCircleOutline, timeOutline });
   }
 
-  // Se llama cada vez que el usuario entra a esta pantalla
   ionViewWillEnter(): void {
-    // TODO 1: Cargar los formularios enviados.
-    //   Usa: this.entries = this.formService.getSubmitted();
-    //   getSubmitted() retorna los que tienen status 'submitted' o 'synced'.
+    this.entries = this.formService.getSubmitted();
   }
 
-  // Retorna el nombre de la plantilla para un formulario dado
   getNombreFormulario(entry: FormEntry): string {
     const tpl = this.formService.getTemplate(entry.templateId);
     return tpl?.title ?? 'Formulario';
   }
 
-  // Formatea la fecha para mostrarla al usuario
   formatFecha(isoString: string): string {
     return new Date(isoString).toLocaleDateString('es-CO', {
       day: '2-digit', month: 'long', year: 'numeric',
     });
   }
 
-  // Retorna el color del badge según el estado del formulario
   getColorEstado(status: string): string {
-    // TODO 2: Retornar el color correcto según el estado.
-    //   - 'synced'    → 'success'   (verde)
-    //   - 'submitted' → 'warning'   (amarillo)
-    //   - cualquier otro → 'medium' (gris)
-    return 'medium';
+    switch (status) {
+      case 'synced': return 'success';
+      case 'submitted': return 'warning';
+      default: return 'medium';
+    }
+  }
+
+  // Retorna el nombre legible del estado en español
+  getNombreEstado(status: string): string {
+    switch (status) {
+      case 'synced': return 'Sincronizado';
+      case 'submitted': return 'Enviado';
+      default: return 'Pendiente';
+    }
   }
 }

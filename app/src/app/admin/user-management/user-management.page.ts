@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import {
-  IonContent, IonHeader, IonTitle, IonToolbar,
-  IonList, IonItem, IonLabel, IonBadge, IonIcon,
-  IonButtons, IonButton,
+import { 
+  IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, 
+  IonLabel, IonBadge, IonIcon, IonButtons, IonButton, IonBackButton 
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { personOutline } from 'ionicons/icons';
@@ -12,15 +11,15 @@ import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'app-user-management',
   templateUrl: 'user-management.page.html',
+  standalone: true,
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonList, IonItem, IonLabel, IonBadge, IonIcon,
-    IonButtons, IonButton,
+    IonButtons, IonButton, IonBackButton
   ],
 })
 export class UserManagementPage {
-
-  // Lista de usuarios del sistema
+  // 1. Esta variable evita el error en "@for (user of users...)"
   users: User[] = [];
 
   constructor(private auth: AuthService) {
@@ -28,20 +27,15 @@ export class UserManagementPage {
   }
 
   ionViewWillEnter(): void {
-    // TODO 1: Cargar la lista de usuarios.
-    //   Usa: this.users = this.auth.getUsers();
-    //   getUsers() retorna los usuarios guardados en localStorage.
+    // 2. Aquí cargas los datos cuando entras a la página
+    this.users = this.auth.getUsers();
   }
 
-  // Retorna el color del badge según el rol del usuario
+  // 3. Estas funciones evitan el error en "[color]" y "{{ getTextoRol() }}"
   getColorRol(role: string): string {
-    // TODO 2: Retornar el color del badge según el rol.
-    //   - 'admin' → 'danger'  (rojo)
-    //   - 'pilot' → 'primary' (azul)
-    return 'medium';
+    return role === 'admin' ? 'danger' : 'primary';
   }
 
-  // Retorna el texto del rol en español
   getTextoRol(role: string): string {
     return role === 'admin' ? 'Admin' : 'Piloto';
   }

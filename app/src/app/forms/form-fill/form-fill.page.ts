@@ -1,9 +1,23 @@
 import { Component } from '@angular/core';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { CommonModule } from '@angular/common'; // Necesario para *ngIf y *ngFor
+import { FormsModule } from '@angular/forms';   // Necesario para [(ngModel)]
+import { 
+  IonContent, IonHeader, IonTitle, IonToolbar,
+  IonButtons, IonBackButton, IonList, IonItem,
+  IonLabel, IonInput, IonSelect, IonSelectOption,
+  IonButton, IonText 
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-form-fill',
   templateUrl: 'form-fill.page.html',
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar],
+  standalone: true,
+  imports: [
+    CommonModule, FormsModule, // <--- Obligatorios
+    IonContent, IonHeader, IonTitle, IonToolbar,
+    IonButtons, IonBackButton, IonList, IonItem,
+    IonLabel, IonInput, IonSelect, IonSelectOption,
+    IonButton, IonText
+  ],
 })
 export class FormFillPage {}

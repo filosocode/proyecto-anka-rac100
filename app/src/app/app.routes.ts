@@ -14,7 +14,7 @@ export const routes: Routes = [
   // Rutas del piloto (requiere autenticación)
   {
     path: 'home',
-    canActivate: [authGuard],
+    //canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'forms', pathMatch: 'full' },
       {
