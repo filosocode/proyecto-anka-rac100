@@ -61,6 +61,34 @@ export class FormService {
     return `entry_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   }
 
+  generateTemplateId(): string {
+    return `tpl_${Date.now()}`;
+  }
+
+  saveTemplate(template: FormTemplate): void {
+    const templates = this.getTemplates();
+    const idx = templates.findIndex(t => t.id === template.id);
+    if (idx >= 0) {
+      templates[idx] = template;
+    } else {
+      templates.push(template);
+    }
+    this.storage.set(this.TEMPLATES_KEY, templates);
+  }
+
+  deleteTemplate(id: string): void {
+    const templates = this.getTemplates().filter(t => t.id !== id);
+    this.storage.set(this.TEMPLATES_KEY, templates);
+  }
+
+  toggleActive(id: string): void {
+    const templates = this.getTemplates();
+    const idx = templates.findIndex(t => t.id === id);
+    if (idx < 0) return;
+    templates[idx] = { ...templates[idx], active: !templates[idx].active };
+    this.storage.set(this.TEMPLATES_KEY, templates);
+  }
+
   // ─── Seed ─────────────────────────────────────────────────────────────────
 
   private seedDefaultTemplates(): void {
@@ -71,6 +99,7 @@ export class FormService {
       {
         id: 'tpl-prevuelo',
         title: 'Inspección Pre-Vuelo RAC 100',
+        active: true,
         fields: [
           { name: 'drone_id', label: 'ID del Dron', type: 'text', required: true },
           { name: 'piloto', label: 'Nombre del Piloto', type: 'text', required: true },
@@ -83,6 +112,7 @@ export class FormService {
       {
         id: 'tpl-postvuelo',
         title: 'Reporte Post-Vuelo RAC 100',
+        active: true,
         fields: [
           { name: 'drone_id', label: 'ID del Dron', type: 'text', required: true },
           { name: 'piloto', label: 'Nombre del Piloto', type: 'text', required: true },
@@ -95,6 +125,7 @@ export class FormService {
       {
         id: 'tpl-autorizacion',
         title: 'Solicitud de Autorización de Operación',
+        active: true,
         fields: [
           { name: 'piloto', label: 'Piloto Responsable', type: 'text', required: true },
           { name: 'empresa', label: 'Empresa Operadora', type: 'text', required: true },

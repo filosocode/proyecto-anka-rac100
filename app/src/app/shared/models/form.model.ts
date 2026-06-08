@@ -2,6 +2,7 @@
   id: string;
   title: string;
   fields: FormField[];
+  active: boolean;
 }
 
 export interface FormField {

@@ -35,17 +35,12 @@ export class FormListPage implements OnInit {
   }
 
   ngOnInit(): void {
-    // TODO 1: Cargar las plantillas disponibles.
-    this.templates = this.formService.getTemplates();
-
-    // TODO 2: Contar los borradores guardados.
+    this.templates = this.formService.getTemplates().filter(t => t.active);
     this.draftCount = this.formService.getDrafts().length;
   }
 
-  // Se llama cada vez que el usuario regresa a esta pantalla
   ionViewWillEnter(): void {
-    // TODO 3: Volver a cargar los datos (por si guardaron un nuevo borrador).
-    this.templates = this.formService.getTemplates();
+    this.templates = this.formService.getTemplates().filter(t => t.active);
     this.draftCount = this.formService.getDrafts().length;
   }
 

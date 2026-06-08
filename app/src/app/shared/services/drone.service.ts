@@ -42,9 +42,9 @@ export class DroneService {
     const existing = this.storage.get<unknown[]>(this.KEY);
     if (existing && existing.length > 0) return;
     this.storage.set(this.KEY, [
-      { id: 'd1', serial: 'DJI-001', model: 'DJI Phantom 4', status: 'active' },
-      { id: 'd2', serial: 'DJI-002', model: 'DJI Mavic 3', status: 'active' },
-      { id: 'd3', serial: 'AUT-003', model: 'Autel EVO II', status: 'maintenance' },
+      { id: 'd1', serial: 'DJI-001', model: 'DJI Phantom 4', tipo: 'Quadcóptero', status: 'active' },
+      { id: 'd2', serial: 'DJI-002', model: 'DJI Mavic 3',   tipo: 'Quadcóptero', status: 'active' },
+      { id: 'd3', serial: 'AUT-003', model: 'Autel EVO II',  tipo: 'Octacóptero', status: 'maintenance' },
     ] as Drone[]);
   }
 }
