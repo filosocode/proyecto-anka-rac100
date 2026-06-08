@@ -1,0 +1,15 @@
+# ─── Imágenes y capturas de pantalla (trabajo local, no del proyecto) ───────
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+
+# ─── Notas y archivos de sesión de clase ─────────────────────────────────────
+/*.txt
+
+# ─── Material académico (documentos de clase) ────────────────────────────────
+ÉNFASIS*/
+ENFASIS*/
+
+# ─── Android nativo (generado por Capacitor, se regenera con cap copy android)
+app/android/
