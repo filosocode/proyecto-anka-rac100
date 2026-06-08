@@ -11,10 +11,12 @@ export const routes: Routes = [
       import('./auth/login/login.page').then(m => m.LoginPage),
   },
 
-  // Rutas del piloto (requiere autenticación)
+  // Rutas del piloto con tabs (requiere autenticación)
   {
     path: 'home',
-    //canActivate: [authGuard],
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./home/home-tabs.page').then(m => m.HomeTabsPage),
     children: [
       { path: '', redirectTo: 'forms', pathMatch: 'full' },
       {
@@ -45,10 +47,12 @@ export const routes: Routes = [
     ],
   },
 
-  // Rutas del administrador (requiere autenticación + rol admin)
+  // Rutas del administrador con tabs (requiere autenticación + rol admin)
   {
     path: 'admin',
     canActivate: [authGuard, adminGuard],
+    loadComponent: () =>
+      import('./admin/admin-tabs/admin-tabs.page').then(m => m.AdminTabsPage),
     children: [
       { path: '', redirectTo: 'drones', pathMatch: 'full' },
       {

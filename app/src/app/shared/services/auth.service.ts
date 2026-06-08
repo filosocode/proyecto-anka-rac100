@@ -54,9 +54,26 @@ export class AuthService {
     this.storage.set(this.USERS_KEY, users);
   }
 
+  updateUser(id: string, changes: Partial<StoredUser>): void {
+    const users = this.getUsers();
+    const idx = users.findIndex(u => u.id === id);
+    if (idx < 0) return;
+    users[idx] = { ...users[idx], ...changes };
+    this.storage.set(this.USERS_KEY, users);
+    if (this.currentUser()?.id === id) {
+      const { password: _pw, ...user } = users[idx];
+      this.currentUser.set(user);
+      this.storage.set(this.SESSION_KEY, user);
+    }
+  }
+
   deleteUser(id: string): void {
     const users = this.getUsers().filter(u => u.id !== id);
     this.storage.set(this.USERS_KEY, users);
+  }
+
+  generateUserId(): string {
+    return `user_${Date.now()}`;
   }
 
   private seedDefaultUsers(): void {

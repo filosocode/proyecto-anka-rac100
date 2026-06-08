@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonList, IonItem, IonLabel, IonButton, IonIcon,
-  IonAvatar, AlertController, 
+  AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { personCircleOutline, logOutOutline, settingsOutline } from 'ionicons/icons';
@@ -16,7 +16,7 @@ import { AuthService } from '../../shared/services/auth.service';
   standalone: true, // Asegurado para compatibilidad
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
-    IonList, IonItem, IonLabel, IonButton, IonIcon, IonAvatar,
+    IonList, IonItem, IonLabel, IonButton, IonIcon,
   ],
 })
 export class ProfilePage {
@@ -35,6 +35,32 @@ export class ProfilePage {
   ionViewWillEnter(): void {
     // TODO 1: Cargar el usuario actual.
     this.user = this.auth.currentUser();
+  }
+
+  async editarPerfil(): Promise<void> {
+    if (!this.user) return;
+    const alert = await this.alertCtrl.create({
+      header: 'Editar Perfil',
+      inputs: [
+        { name: 'name', value: this.user.name, placeholder: 'Nombre completo', type: 'text' },
+        { name: 'password', placeholder: 'Nueva contraseña (dejar vacío para no cambiar)', type: 'password' },
+      ],
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Guardar',
+          handler: (data) => {
+            if (!data.name?.trim()) return false;
+            const changes: Record<string, string> = { name: data.name.trim() };
+            if (data.password?.trim()) changes['password'] = data.password.trim();
+            this.auth.updateUser(this.user!.id, changes);
+            this.user = this.auth.currentUser();
+            return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   async confirmarCierreSesion(): Promise<void> {

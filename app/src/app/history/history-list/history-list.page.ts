@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // Necesario para [routerLink]
+import { RouterModule } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
-  IonList, IonItem, IonLabel, IonBadge, IonIcon, 
-  IonButtons, IonBackButton // Añadidos para navegación
+  IonList, IonItem, IonLabel, IonBadge, IonIcon, IonButton,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { checkmarkCircleOutline, timeOutline } from 'ionicons/icons';
@@ -16,10 +14,9 @@ import { FormService } from '../../shared/services/form.service';
   templateUrl: 'history-list.page.html',
   standalone: true,
   imports: [
-    CommonModule, RouterModule,
+    RouterModule,
     IonContent, IonHeader, IonTitle, IonToolbar,
-    IonList, IonItem, IonLabel, IonBadge, IonIcon, 
-    IonButtons, IonBackButton
+    IonList, IonItem, IonLabel, IonBadge, IonIcon, IonButton,
   ],
 })
 export class HistoryListPage {

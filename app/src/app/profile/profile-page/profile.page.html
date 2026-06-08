@@ -23,6 +23,16 @@
       </ion-item>
     </ion-list>
 
+    <!-- Botón editar perfil -->
+    <ion-button
+      expand="block"
+      fill="outline"
+      class="ion-margin-top"
+      (click)="editarPerfil()">
+      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+      Editar perfil
+    </ion-button>
+
     <!-- Botón del panel admin, solo visible para admins -->
     @if (esAdmin()) {
       <ion-button

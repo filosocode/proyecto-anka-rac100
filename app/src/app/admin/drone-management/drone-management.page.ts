@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router'; // Agregado para que routerLink funcione en el HTML
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonList, IonItem, IonLabel, IonBadge, IonButton,
-  IonButtons, IonIcon, IonFab, IonFabButton,
+  IonIcon, IonFab, IonFabButton,
   AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -14,17 +13,15 @@ import { DroneService } from '../../shared/services/drone.service';
 @Component({
   selector: 'app-drone-management',
   templateUrl: 'drone-management.page.html',
-  standalone: true, // Asegurado para compatibilidad
+  standalone: true,
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonList, IonItem, IonLabel, IonBadge, IonButton,
-    IonButtons, IonIcon, IonFab, IonFabButton,
-    RouterLink, // Necesario para navegar a Usuarios
+    IonIcon, IonFab, IonFabButton,
   ],
 })
 export class DroneManagementPage {
 
-  // Lista de drones
   drones: Drone[] = [];
 
   constructor(
@@ -35,12 +32,10 @@ export class DroneManagementPage {
   }
 
   ionViewWillEnter(): void {
-    // TODO 1: Cargar la lista de drones.
     this.drones = this.droneService.getAll();
   }
 
   async agregarDrone(): Promise<void> {
-    // TODO 2: Mostrar un formulario (ion-alert con inputs) para agregar un drone.
     const alert = await this.alertCtrl.create({
       header: 'Agregar Drone',
       inputs: [
@@ -49,22 +44,68 @@ export class DroneManagementPage {
       ],
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
-        { 
-          text: 'Guardar', 
+        {
+          text: 'Guardar',
           handler: (data) => {
-            // Validación básica para no guardar drones vacíos
-            if (!data.serial || !data.model) return false;
-
-            const nuevo: Drone = {
+            if (!data.serial?.trim() || !data.model?.trim()) return false;
+            this.droneService.save({
               id: this.droneService.generateId(),
-              serial: data.serial,
-              model: data.model,
+              serial: data.serial.trim(),
+              model: data.model.trim(),
               status: 'active',
-            };
-            this.droneService.save(nuevo);
+            });
             this.drones = this.droneService.getAll();
             return true;
-          }
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async editarDrone(drone: Drone): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Editar Drone',
+      inputs: [
+        { name: 'serial', value: drone.serial, placeholder: 'Número de serie', type: 'text' },
+        { name: 'model', value: drone.model, placeholder: 'Modelo', type: 'text' },
+        {
+          name: 'status',
+          type: 'radio',
+          label: 'Activo',
+          value: 'active',
+          checked: drone.status === 'active',
+        },
+        {
+          name: 'status',
+          type: 'radio',
+          label: 'Mantenimiento',
+          value: 'maintenance',
+          checked: drone.status === 'maintenance',
+        },
+        {
+          name: 'status',
+          type: 'radio',
+          label: 'Inactivo',
+          value: 'inactive',
+          checked: drone.status === 'inactive',
+        },
+      ],
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Guardar',
+          handler: (data) => {
+            if (!data.serial?.trim() || !data.model?.trim()) return false;
+            this.droneService.save({
+              ...drone,
+              serial: data.serial.trim(),
+              model: data.model.trim(),
+              status: data.status ?? drone.status,
+            });
+            this.drones = this.droneService.getAll();
+            return true;
+          },
         },
       ],
     });
@@ -72,10 +113,9 @@ export class DroneManagementPage {
   }
 
   async eliminarDrone(drone: Drone): Promise<void> {
-    // TODO 3: Confirmar y eliminar un drone.
     const alert = await this.alertCtrl.create({
       header: 'Eliminar Drone',
-      message: `¿Estás seguro de que deseas eliminar el drone modelo ${drone.model}?`,
+      message: `¿Eliminar el drone ${drone.model} (${drone.serial})?`,
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
@@ -84,16 +124,14 @@ export class DroneManagementPage {
           handler: () => {
             this.droneService.delete(drone.id);
             this.drones = this.droneService.getAll();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
 
-  // Retorna el color del badge según el estado del drone
   getColorEstado(status: string): string {
-    // TODO 4: Retornar el color según el estado.
     const colores: Record<string, string> = {
       active: 'success',
       maintenance: 'warning',
@@ -102,7 +140,6 @@ export class DroneManagementPage {
     return colores[status] ?? 'medium';
   }
 
-  // Traduce el estado del drone al español
   getTextoEstado(status: string): string {
     const estados: Record<string, string> = {
       active: 'Activo',

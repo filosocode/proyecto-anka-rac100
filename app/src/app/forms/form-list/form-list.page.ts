@@ -1,21 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonIcon,
-  IonBadge,
-  IonButton,
-  IonButtons,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardContent,
+  IonContent, IonHeader, IonTitle, IonToolbar,
+  IonIcon, IonBadge, IonButton, IonButtons,
+  IonCard, IonCardHeader, IonCardTitle, IonCardContent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { documentTextOutline, addOutline, archiveOutline } from 'ionicons/icons';
@@ -27,9 +15,8 @@ import { FormService } from '../../shared/services/form.service';
   templateUrl: 'form-list.page.html',
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
-    IonList, IonItem, IonLabel, IonIcon, IonBadge,
-    IonButton, IonButtons, IonCard, IonCardHeader,
-    IonCardTitle, IonCardContent,
+    IonIcon, IonBadge, IonButton, IonButtons,
+    IonCard, IonCardHeader, IonCardTitle, IonCardContent,
   ],
 })
 export class FormListPage implements OnInit {

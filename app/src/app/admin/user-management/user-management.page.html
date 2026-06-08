@@ -1,8 +1,5 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/admin/drones"></ion-back-button>
-    </ion-buttons>
     <ion-title>Gestión de Usuarios</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -24,11 +21,29 @@
           <h3>{{ user.name }}</h3>
           <p>{{ user.email }}</p>
         </ion-label>
+
         <ion-badge slot="end" [color]="getColorRol(user.role)">
           {{ getTextoRol(user.role) }}
         </ion-badge>
+
+        <!-- Editar -->
+        <ion-button fill="clear" slot="end" (click)="editarUsuario(user)">
+          <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+
+        <!-- Eliminar -->
+        <ion-button fill="clear" color="danger" slot="end" (click)="eliminarUsuario(user)">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
       </ion-item>
     }
   </ion-list>
+
+  <!-- FAB: agregar usuario -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="agregarUsuario()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
