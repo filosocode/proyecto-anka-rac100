@@ -101,7 +101,6 @@ export class FormService {
         title: 'Inspección Pre-Vuelo RAC 100',
         active: true,
         fields: [
-          { name: 'drone_id', label: 'ID del Dron', type: 'text', required: true },
           { name: 'piloto', label: 'Nombre del Piloto', type: 'text', required: true },
           { name: 'zona_operacion', label: 'Zona de Operación', type: 'text', required: true },
           { name: 'condicion_clima', label: 'Condición Climática', type: 'select', required: true, options: ['Despejado', 'Nublado', 'Lluvia leve'] },
@@ -114,7 +113,6 @@ export class FormService {
         title: 'Reporte Post-Vuelo RAC 100',
         active: true,
         fields: [
-          { name: 'drone_id', label: 'ID del Dron', type: 'text', required: true },
           { name: 'piloto', label: 'Nombre del Piloto', type: 'text', required: true },
           { name: 'duracion_vuelo', label: 'Duración del Vuelo (min)', type: 'number', required: true },
           { name: 'incidentes', label: 'Incidentes', type: 'select', required: true, options: ['Ninguno', 'Falla técnica', 'Emergencia climática', 'Otro'] },

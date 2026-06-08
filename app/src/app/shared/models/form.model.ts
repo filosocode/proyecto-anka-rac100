@@ -17,6 +17,7 @@ export interface FormEntry {
   id: string;
   templateId: string;
   pilotId: string;
+  droneId: string;
   data: Record<string, any>;
   status: 'draft' | 'submitted' | 'synced';
   createdAt: string;

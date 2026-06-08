@@ -10,8 +10,10 @@ import {
 import { addIcons } from 'ionicons';
 import { locationOutline, cameraOutline } from 'ionicons/icons';
 import { FormEntry, FormField, FormTemplate } from '../../shared/models/form.model';
+import { Drone } from '../../shared/models/drone.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { FormService } from '../../shared/services/form.service';
+import { DroneService } from '../../shared/services/drone.service';
 
 @Component({
   selector: 'app-form-fill',
@@ -30,6 +32,8 @@ export class FormFillPage implements OnInit {
   formData: Record<string, string> = {};
   errorMessage = '';
   editingEntryId: string | null = null;
+  drones: Drone[] = [];
+  selectedDroneId = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -37,11 +41,14 @@ export class FormFillPage implements OnInit {
     private formService: FormService,
     private auth: AuthService,
     private alertCtrl: AlertController,
+    private droneService: DroneService,
   ) {
     addIcons({ locationOutline, cameraOutline });
   }
 
   ngOnInit(): void {
+    this.drones = this.droneService.getAll();
+
     const templateId = this.route.snapshot.paramMap.get('id');
     if (templateId) {
       this.template = this.formService.getTemplate(templateId);
@@ -58,6 +65,7 @@ export class FormFillPage implements OnInit {
       if (existingEntry) {
         this.editingEntryId = draftId;
         this.formData = { ...existingEntry.data };
+        this.selectedDroneId = existingEntry.droneId ?? '';
         return;
       }
     }
@@ -74,6 +82,7 @@ export class FormFillPage implements OnInit {
       id: this.editingEntryId || this.formService.generateId(),
       templateId: this.template.id,
       pilotId: this.auth.currentUser()?.id || 'unknown',
+      droneId: this.selectedDroneId,
       data: this.formData,
       status: 'draft',
       createdAt: new Date().toISOString(),
@@ -86,6 +95,11 @@ export class FormFillPage implements OnInit {
 
   async enviar(): Promise<void> {
     this.errorMessage = '';
+
+    if (!this.selectedDroneId) {
+      this.errorMessage = 'Debes seleccionar un drone.';
+      return;
+    }
 
     for (const campo of this.template?.fields || []) {
       if (campo.required && !this.formData[campo.name]) {
@@ -106,6 +120,7 @@ export class FormFillPage implements OnInit {
               id: this.editingEntryId || this.formService.generateId(),
               templateId: this.template!.id,
               pilotId: this.auth.currentUser()?.id || 'unknown',
+              droneId: this.selectedDroneId,
               data: this.formData,
               status: 'submitted',
               createdAt: new Date().toISOString(),
