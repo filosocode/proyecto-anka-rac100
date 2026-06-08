@@ -18,7 +18,7 @@
       <ion-item>
         <ion-label>
           <h3>{{ drone.model }}</h3>
-          <p>Serie: {{ drone.serial }}</p>
+          <p>{{ drone.tipo }} &bull; Serie: {{ drone.serial }}</p>
         </ion-label>
 
         <ion-badge slot="end" [color]="getColorEstado(drone.status)">

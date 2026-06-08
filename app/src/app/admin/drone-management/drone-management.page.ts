@@ -24,6 +24,8 @@ export class DroneManagementPage {
 
   drones: Drone[] = [];
 
+  private _bufferDrone: Partial<Drone> | null = null;
+
   constructor(
     private droneService: DroneService,
     private alertCtrl: AlertController,
@@ -35,26 +37,23 @@ export class DroneManagementPage {
     this.drones = this.droneService.getAll();
   }
 
+  // CREAR — paso 1: serie y modelo
   async agregarDrone(): Promise<void> {
     const alert = await this.alertCtrl.create({
-      header: 'Agregar Drone',
+      header: 'Nuevo Drone (1/3)',
+      subHeader: 'Datos básicos',
       inputs: [
         { name: 'serial', placeholder: 'Número de serie', type: 'text' },
-        { name: 'model', placeholder: 'Modelo', type: 'text' },
+        { name: 'model',  placeholder: 'Modelo',          type: 'text' },
       ],
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
-          text: 'Guardar',
+          text: 'Siguiente →',
           handler: (data) => {
             if (!data.serial?.trim() || !data.model?.trim()) return false;
-            this.droneService.save({
-              id: this.droneService.generateId(),
-              serial: data.serial.trim(),
-              model: data.model.trim(),
-              status: 'active',
-            });
-            this.drones = this.droneService.getAll();
+            this._bufferDrone = { id: this.droneService.generateId(), serial: data.serial.trim(), model: data.model.trim() };
+            this.elegirTipo();
             return true;
           },
         },
@@ -63,48 +62,76 @@ export class DroneManagementPage {
     await alert.present();
   }
 
+  // EDITAR — paso 1: serie y modelo
   async editarDrone(drone: Drone): Promise<void> {
     const alert = await this.alertCtrl.create({
-      header: 'Editar Drone',
+      header: 'Editar Drone (1/3)',
+      subHeader: 'Datos básicos',
       inputs: [
         { name: 'serial', value: drone.serial, placeholder: 'Número de serie', type: 'text' },
-        { name: 'model', value: drone.model, placeholder: 'Modelo', type: 'text' },
-        {
-          name: 'status',
-          type: 'radio',
-          label: 'Activo',
-          value: 'active',
-          checked: drone.status === 'active',
-        },
-        {
-          name: 'status',
-          type: 'radio',
-          label: 'Mantenimiento',
-          value: 'maintenance',
-          checked: drone.status === 'maintenance',
-        },
-        {
-          name: 'status',
-          type: 'radio',
-          label: 'Inactivo',
-          value: 'inactive',
-          checked: drone.status === 'inactive',
-        },
+        { name: 'model',  value: drone.model,  placeholder: 'Modelo',          type: 'text' },
       ],
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
-          text: 'Guardar',
+          text: 'Siguiente →',
           handler: (data) => {
             if (!data.serial?.trim() || !data.model?.trim()) return false;
-            this.droneService.save({
-              ...drone,
-              serial: data.serial.trim(),
-              model: data.model.trim(),
-              status: data.status ?? drone.status,
-            });
-            this.drones = this.droneService.getAll();
+            this._bufferDrone = { ...drone, serial: data.serial.trim(), model: data.model.trim() };
+            this.elegirTipo();
             return true;
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  // Paso 2: tipo de aeronave (radio-only)
+  private async elegirTipo(): Promise<void> {
+    const tipoActual = this._bufferDrone?.['tipo'] ?? 'Quadcóptero';
+    const alert = await this.alertCtrl.create({
+      header: 'Tipo de aeronave (2/3)',
+      inputs: [
+        { type: 'radio', label: 'Quadcóptero',  value: 'Quadcóptero',  checked: tipoActual === 'Quadcóptero' },
+        { type: 'radio', label: 'Hexacóptero',  value: 'Hexacóptero',  checked: tipoActual === 'Hexacóptero' },
+        { type: 'radio', label: 'Octacóptero',  value: 'Octacóptero',  checked: tipoActual === 'Octacóptero' },
+        { type: 'radio', label: 'Ala fija',     value: 'Ala fija',     checked: tipoActual === 'Ala fija' },
+        { type: 'radio', label: 'VTOL',         value: 'VTOL',         checked: tipoActual === 'VTOL' },
+      ],
+      buttons: [
+        { text: 'Atrás', role: 'cancel' },
+        {
+          text: 'Siguiente →',
+          handler: (tipo) => {
+            this._bufferDrone = { ...this._bufferDrone, tipo: tipo ?? 'Quadcóptero' };
+            this.elegirEstado();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  // Paso 3: estado operativo (radio-only)
+  private async elegirEstado(): Promise<void> {
+    const statusActual = (this._bufferDrone as Drone)?.status ?? 'active';
+    const alert = await this.alertCtrl.create({
+      header: 'Estado operativo (3/3)',
+      inputs: [
+        { type: 'radio', label: 'Activo',        value: 'active',      checked: statusActual === 'active' },
+        { type: 'radio', label: 'Mantenimiento', value: 'maintenance', checked: statusActual === 'maintenance' },
+        { type: 'radio', label: 'Inactivo',      value: 'inactive',    checked: statusActual === 'inactive' },
+      ],
+      buttons: [
+        { text: 'Atrás', role: 'cancel' },
+        {
+          text: 'Guardar',
+          handler: (status) => {
+            const drone = { ...this._bufferDrone, status: status ?? 'active' } as Drone;
+            this.droneService.save(drone);
+            this.drones = this.droneService.getAll();
+            this._bufferDrone = null;
           },
         },
       ],
@@ -115,7 +142,7 @@ export class DroneManagementPage {
   async eliminarDrone(drone: Drone): Promise<void> {
     const alert = await this.alertCtrl.create({
       header: 'Eliminar Drone',
-      message: `¿Eliminar el drone ${drone.model} (${drone.serial})?`,
+      message: `¿Eliminar ${drone.model} (${drone.serial})?`,
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
@@ -132,20 +159,12 @@ export class DroneManagementPage {
   }
 
   getColorEstado(status: string): string {
-    const colores: Record<string, string> = {
-      active: 'success',
-      maintenance: 'warning',
-      inactive: 'medium',
-    };
+    const colores: Record<string, string> = { active: 'success', maintenance: 'warning', inactive: 'medium' };
     return colores[status] ?? 'medium';
   }
 
   getTextoEstado(status: string): string {
-    const estados: Record<string, string> = {
-      active: 'Activo',
-      maintenance: 'Mantenimiento',
-      inactive: 'Inactivo',
-    };
+    const estados: Record<string, string> = { active: 'Activo', maintenance: 'Mantenimiento', inactive: 'Inactivo' };
     return estados[status] ?? status;
   }
 }
