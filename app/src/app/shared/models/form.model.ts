@@ -8,7 +8,7 @@
 export interface FormField {
   name: string;
   label: string;
-  type: 'text' | 'number' | 'select' | 'file';
+  type: 'text' | 'number' | 'date' | 'select' | 'file' | 'location';
   required: boolean;
   options?: string[];
 }

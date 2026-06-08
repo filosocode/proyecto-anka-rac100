@@ -5,8 +5,10 @@ import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonButtons, IonBackButton, IonList, IonItem,
   IonLabel, IonInput, IonSelect, IonSelectOption,
-  IonButton, IonText, AlertController,
+  IonButton, IonIcon, IonText, AlertController,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { locationOutline, cameraOutline } from 'ionicons/icons';
 import { FormEntry, FormField, FormTemplate } from '../../shared/models/form.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { FormService } from '../../shared/services/form.service';
@@ -19,7 +21,7 @@ import { FormService } from '../../shared/services/form.service';
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonButtons, IonBackButton, IonList, IonItem,
     IonLabel, IonInput, IonSelect, IonSelectOption,
-    IonButton, IonText,
+    IonButton, IonIcon, IonText,
   ],
 })
 export class FormFillPage implements OnInit {
@@ -35,7 +37,9 @@ export class FormFillPage implements OnInit {
     private formService: FormService,
     private auth: AuthService,
     private alertCtrl: AlertController,
-  ) {}
+  ) {
+    addIcons({ locationOutline, cameraOutline });
+  }
 
   ngOnInit(): void {
     const templateId = this.route.snapshot.paramMap.get('id');
@@ -118,5 +122,28 @@ export class FormFillPage implements OnInit {
 
   getCampos(): FormField[] {
     return this.template?.fields ?? [];
+  }
+
+  obtenerUbicacion(fieldName: string): void {
+    if (!navigator.geolocation) {
+      this.formData[fieldName] = 'GPS no disponible';
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        this.formData[fieldName] =
+          `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+      },
+      () => {
+        this.formData[fieldName] = 'Error al obtener ubicación';
+      },
+    );
+  }
+
+  onFileChange(event: Event, fieldName: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.formData[fieldName] = input.files[0].name;
+    }
   }
 }

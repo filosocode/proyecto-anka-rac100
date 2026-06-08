@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonList, IonItem, IonLabel, IonBadge, IonIcon, IonButton,
@@ -6,7 +7,7 @@ import {
   AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, trashOutline, createOutline, documentTextOutline } from 'ionicons/icons';
+import { addOutline, trashOutline, createOutline, documentTextOutline, listOutline } from 'ionicons/icons';
 import { FormTemplate } from '../../shared/models/form.model';
 import { FormService } from '../../shared/services/form.service';
 
@@ -27,12 +28,17 @@ export class FormManagementPage {
   constructor(
     private formService: FormService,
     private alertCtrl: AlertController,
+    private router: Router,
   ) {
-    addIcons({ addOutline, trashOutline, createOutline, documentTextOutline });
+    addIcons({ addOutline, trashOutline, createOutline, documentTextOutline, listOutline });
   }
 
   ionViewWillEnter(): void {
     this.templates = this.formService.getTemplates();
+  }
+
+  gestionarCampos(id: string): void {
+    this.router.navigate(['/admin/forms', id, 'fields']);
   }
 
   async crearFormulario(): Promise<void> {

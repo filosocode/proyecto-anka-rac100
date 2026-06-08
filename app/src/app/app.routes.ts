@@ -73,5 +73,13 @@ export const routes: Routes = [
     ],
   },
 
+  // Ruta fuera del tabs para tener header propio con botón de regreso
+  {
+    path: 'admin/forms/:id/fields',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () =>
+      import('./admin/form-fields/form-fields.page').then(m => m.FormFieldsPage),
+  },
+
   { path: '**', redirectTo: '/login' },
 ];
