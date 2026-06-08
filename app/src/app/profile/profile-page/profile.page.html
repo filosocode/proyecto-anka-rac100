@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mi Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Avatar e info del usuario -->
+  @if (user) {
+    <div class="ion-text-center ion-padding-top">
+      <ion-icon name="person-circle-outline" style="font-size: 80px" color="primary"></ion-icon>
+      <h2>{{ user.name }}</h2>
+      <p>{{ user.email }}</p>
+    </div>
+
+    <ion-list>
+      <ion-item>
+        <ion-label>
+          <p>Rol</p>
+          <h3>{{ user.role === 'admin' ? 'Administrador' : 'Piloto' }}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <!-- Botón editar perfil -->
+    <ion-button
+      expand="block"
+      fill="outline"
+      class="ion-margin-top"
+      (click)="editarPerfil()">
+      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+      Editar perfil
+    </ion-button>
+
+    <!-- Botón del panel admin, solo visible para admins -->
+    @if (esAdmin()) {
+      <ion-button
+        expand="block"
+        fill="outline"
+        class="ion-margin-top"
+        (click)="irAPanelAdmin()">
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
+        Panel de Administración
+      </ion-button>
+    }
+
+    <!-- Botón de cerrar sesión -->
+    <ion-button
+      expand="block"
+      color="danger"
+      class="ion-margin-top"
+      (click)="confirmarCierreSesion()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Cerrar sesión
+    </ion-button>
+  }
+
+</ion-content>

@@ -1,0 +1,72 @@
+<ion-content class="login-content">
+
+  <!-- Logo / encabezado -->
+  <div class="login-header ion-text-center ion-padding-top">
+    <h1 class="logo-title">ANKA</h1>
+    <p class="logo-sub">RAC 100 — Formularios Operativos</p>
+  </div>
+
+  <!-- Tarjeta del formulario -->
+  <div class="login-card ion-padding">
+
+    <ion-list lines="full" class="ion-no-margin">
+
+      <!-- Campo: email -->
+      <ion-item>
+        <ion-label position="floating">Correo electrónico</ion-label>
+        <ion-input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="usuario@empresa.co"
+          autocomplete="email">
+        </ion-input>
+      </ion-item>
+
+      <!-- Campo: contraseña -->
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          autocomplete="current-password">
+        </ion-input>
+      </ion-item>
+
+    </ion-list>
+
+    <!-- Mensaje de error (solo se muestra si errorMessage no está vacío) -->
+    @if (errorMessage) {
+      <ion-text color="danger">
+        <p class="error-text">{{ errorMessage }}</p>
+      </ion-text>
+    }
+
+    <!-- Botón principal -->
+    <ion-button
+      expand="block"
+      class="ion-margin-top"
+      (click)="login()"
+      [disabled]="loading">
+      @if (loading) {
+        <ion-spinner name="crescent"></ion-spinner>
+      } @else {
+        Ingresar
+      }
+    </ion-button>
+
+    <!-- Link recuperar contraseña -->
+    <div class="ion-text-center ion-margin-top">
+      <ion-button fill="clear" size="small" routerLink="/recuperar-contrasena">
+        ¿Olvidaste tu contraseña?
+      </ion-button>
+    </div>
+
+    <!-- Credenciales de prueba (quitar antes de entregar) -->
+    <ion-note class="demo-note ion-text-center">
+      Demo: admin&#64;anka.co / 1234 &nbsp;|&nbsp; piloto&#64;anka.co / 1234
+    </ion-note>
+
+  </div>
+
+</ion-content>

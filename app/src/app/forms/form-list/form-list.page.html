@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Formularios Disponibles</ion-title>
+    <ion-buttons slot="end">
+      <!-- Botón de borradores con badge que muestra la cantidad -->
+      <ion-button (click)="verBorradores()">
+        <ion-icon name="archive-outline" slot="icon-only"></ion-icon>
+        @if (draftCount > 0) {
+          <ion-badge color="warning">{{ draftCount }}</ion-badge>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Mensaje cuando no hay plantillas -->
+  @if (templates.length === 0) {
+    <div class="ion-text-center ion-padding">
+      <ion-icon name="document-text-outline" size="large" color="medium"></ion-icon>
+      <p>No hay formularios disponibles.</p>
+    </div>
+  }
+
+  <!-- Lista de plantillas -->
+  @for (tpl of templates; track tpl.id) {
+    <ion-card (click)="abrirFormulario(tpl.id)">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+          {{ tpl.title }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ tpl.fields.length }} campos &bull; Toca para diligenciar
+      </ion-card-content>
+    </ion-card>
+  }
+
+</ion-content>

@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/forms"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Borradores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Sin borradores -->
+  @if (drafts.length === 0) {
+    <div class="ion-text-center ion-padding">
+      <ion-icon name="create-outline" size="large" color="medium"></ion-icon>
+      <p>No tienes borradores guardados.</p>
+      <ion-button fill="clear" routerLink="/home/forms">
+        Ir a formularios
+      </ion-button>
+    </div>
+  }
+
+  <!-- Lista de borradores -->
+  <!-- Slide para mostrar botón de eliminar al deslizar -->
+  <ion-list>
+    @for (draft of drafts; track draft.id) {
+      <ion-item-sliding>
+
+        <ion-item (click)="continuarBorrador(draft)">
+          <ion-icon name="create-outline" slot="start" color="warning"></ion-icon>
+          <ion-label>
+            <h3>{{ getNombreFormulario(draft) }}</h3>
+            <p>Guardado: {{ formatFecha(draft.updatedAt) }}</p>
+          </ion-label>
+        </ion-item>
+
+        <!-- Opción deslizable: eliminar -->
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="eliminarBorrador(draft)">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    }
+  </ion-list>
+
+</ion-content>
