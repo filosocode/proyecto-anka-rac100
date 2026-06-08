@@ -9,17 +9,15 @@
 
 <ion-content class="ion-padding">
 
-  <!-- Mientras no haya plantilla cargada -->
   @if (!template) {
     <p class="ion-text-center">Cargando formulario...</p>
   }
 
-  <!-- Formulario dinámico -->
   @if (template) {
     <ion-list>
       @for (campo of getCampos(); track campo.name) {
 
-        <!-- Campo de texto o número -->
+        <!-- Texto o número -->
         @if (campo.type === 'text' || campo.type === 'number') {
           <ion-item>
             <ion-label position="floating">
@@ -33,7 +31,21 @@
           </ion-item>
         }
 
-        <!-- Campo select (lista de opciones) -->
+        <!-- Fecha -->
+        @if (campo.type === 'date') {
+          <ion-item>
+            <ion-label position="floating">
+              {{ campo.label }}
+              @if (campo.required) { <ion-text color="danger">*</ion-text> }
+            </ion-label>
+            <ion-input
+              type="date"
+              [(ngModel)]="formData[campo.name]">
+            </ion-input>
+          </ion-item>
+        }
+
+        <!-- Selección -->
         @if (campo.type === 'select') {
           <ion-item>
             <ion-label position="floating">
@@ -48,17 +60,58 @@
           </ion-item>
         }
 
+        <!-- Foto / Archivo -->
+        @if (campo.type === 'file') {
+          <ion-item>
+            <ion-label>
+              {{ campo.label }}
+              @if (campo.required) { <ion-text color="danger">*</ion-text> }
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <input
+              type="file"
+              accept="image/*"
+              style="margin: 8px 0"
+              (change)="onFileChange($event, campo.name)">
+            @if (formData[campo.name]) {
+              <ion-text color="success" style="font-size:12px; margin-left:8px">
+                <ion-icon name="camera-outline"></ion-icon> {{ formData[campo.name] }}
+              </ion-text>
+            }
+          </ion-item>
+        }
+
+        <!-- Ubicación GPS -->
+        @if (campo.type === 'location') {
+          <ion-item>
+            <ion-label>
+              {{ campo.label }}
+              @if (campo.required) { <ion-text color="danger">*</ion-text> }
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-button fill="outline" size="small" (click)="obtenerUbicacion(campo.name)">
+              <ion-icon name="location-outline" slot="start"></ion-icon>
+              Obtener GPS
+            </ion-button>
+            @if (formData[campo.name]) {
+              <ion-text color="medium" style="font-size:12px; margin-left:8px">
+                {{ formData[campo.name] }}
+              </ion-text>
+            }
+          </ion-item>
+        }
+
       }
     </ion-list>
 
-    <!-- Error de validación -->
     @if (errorMessage) {
       <ion-text color="danger">
         <p class="ion-padding-start">{{ errorMessage }}</p>
       </ion-text>
     }
 
-    <!-- Botones de acción -->
     <div class="ion-padding-top">
       <ion-button expand="block" fill="outline" (click)="guardarBorrador()">
         Guardar borrador
