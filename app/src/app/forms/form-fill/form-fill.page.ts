@@ -5,10 +5,10 @@ import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonButtons, IonBackButton, IonList, IonItem,
   IonLabel, IonInput, IonSelect, IonSelectOption,
-  IonButton, IonIcon, IonText, AlertController,
+  IonButton, IonIcon, IonText, IonProgressBar, AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { locationOutline, cameraOutline } from 'ionicons/icons';
+import { locationOutline, cameraOutline, cloudUploadOutline } from 'ionicons/icons';
 import { FormEntry, FormField, FormTemplate } from '../../shared/models/form.model';
 import { Drone } from '../../shared/models/drone.model';
 import { AuthService } from '../../shared/services/auth.service';
@@ -23,7 +23,7 @@ import { DroneService } from '../../shared/services/drone.service';
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonButtons, IonBackButton, IonList, IonItem,
     IonLabel, IonInput, IonSelect, IonSelectOption,
-    IonButton, IonIcon, IonText,
+    IonButton, IonIcon, IonText, IonProgressBar,
   ],
 })
 export class FormFillPage implements OnInit {
@@ -43,7 +43,7 @@ export class FormFillPage implements OnInit {
     private alertCtrl: AlertController,
     private droneService: DroneService,
   ) {
-    addIcons({ locationOutline, cameraOutline });
+    addIcons({ locationOutline, cameraOutline, cloudUploadOutline });
   }
 
   ngOnInit(): void {
@@ -133,6 +133,13 @@ export class FormFillPage implements OnInit {
       ],
     });
     await alert.present();
+  }
+
+  get progreso(): number {
+    if (!this.template?.fields.length) return 0;
+    const total  = this.template.fields.length;
+    const llenos = this.template.fields.filter(f => !!this.formData[f.name]).length;
+    return llenos / total;
   }
 
   getCampos(): FormField[] {

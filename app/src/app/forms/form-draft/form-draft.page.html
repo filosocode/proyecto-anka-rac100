@@ -7,34 +7,35 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="fd-content">
 
-  <!-- Sin borradores -->
   @if (drafts.length === 0) {
-    <div class="ion-text-center ion-padding">
-      <ion-icon name="create-outline" size="large" color="medium"></ion-icon>
-      <p>No tienes borradores guardados.</p>
-      <ion-button fill="clear" routerLink="/home/forms">
-        Ir a formularios
-      </ion-button>
+    <div class="empty-state fade-in-up">
+      <ion-icon name="create-outline" class="empty-icon"></ion-icon>
+      <h3>Sin borradores</h3>
+      <p>Los formularios guardados como borrador aparecerán aquí.</p>
     </div>
   }
 
-  <!-- Lista de borradores -->
-  <!-- Slide para mostrar botón de eliminar al deslizar -->
-  <ion-list>
+  <div class="fd-list">
     @for (draft of drafts; track draft.id) {
       <ion-item-sliding>
 
-        <ion-item (click)="continuarBorrador(draft)">
-          <ion-icon name="create-outline" slot="start" color="warning"></ion-icon>
-          <ion-label>
-            <h3>{{ getNombreFormulario(draft) }}</h3>
-            <p>Guardado: {{ formatFecha(draft.updatedAt) }}</p>
-          </ion-label>
-        </ion-item>
+        <div class="fd-card fade-in-up" (click)="continuarBorrador(draft)">
+          <div class="fd-card-left">
+            <div class="fd-card-icon">
+              <ion-icon name="create-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="fd-card-body">
+            <h3 class="fd-card-title">{{ getNombreFormulario(draft) }}</h3>
+            <p class="fd-card-date">Guardado: {{ formatFecha(draft.updatedAt) }}</p>
+          </div>
+          <div class="fd-card-action">
+            <span class="fd-continue">Continuar →</span>
+          </div>
+        </div>
 
-        <!-- Opción deslizable: eliminar -->
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="eliminarBorrador(draft)">
             <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
@@ -43,6 +44,6 @@
 
       </ion-item-sliding>
     }
-  </ion-list>
+  </div>
 
 </ion-content>

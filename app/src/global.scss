@@ -35,3 +35,93 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+// ── Animaciones ────────────────────────────────────────────────────────────
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.06); }
+}
+
+.fade-in-up  { animation: fadeInUp 0.45s cubic-bezier(.22,.68,0,1.2) both; }
+.fade-in     { animation: fadeIn  0.35s ease both; }
+.delay-1     { animation-delay: 0.1s; }
+.delay-2     { animation-delay: 0.2s; }
+.delay-3     { animation-delay: 0.3s; }
+
+// ── Toolbar con gradiente ──────────────────────────────────────────────────
+ion-toolbar[color="primary"] {
+  --background: linear-gradient(135deg, #364A73 0%, #2e4063 100%);
+  --color: #ffffff;
+}
+
+// ── Cards globales ─────────────────────────────────────────────────────────
+ion-card {
+  border-radius: var(--anka-radius) !important;
+  box-shadow: var(--anka-card-shadow) !important;
+}
+
+// ── FAB global ─────────────────────────────────────────────────────────────
+ion-fab-button {
+  --background: #F25D27;
+  --background-activated: #d45222;
+  --box-shadow: 0 4px 16px rgba(242, 93, 39, 0.45);
+}
+
+// ── Tab bar ────────────────────────────────────────────────────────────────
+ion-tab-bar {
+  --background: #ffffff;
+  border-top: 1px solid rgba(54, 74, 115, 0.1);
+  box-shadow: 0 -2px 12px rgba(54, 74, 115, 0.08);
+}
+ion-tab-button {
+  --color:         #78909C;
+  --color-selected: #364A73;
+}
+
+// ── Botón primario ─────────────────────────────────────────────────────────
+ion-button[color="primary"] {
+  --background: #364A73;
+  --border-radius: 10px;
+}
+ion-button[color="secondary"] {
+  --background: #F25D27;
+  --border-radius: 10px;
+}
+
+// ── Empty state helper ─────────────────────────────────────────────────────
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+
+  dotlottie-player,
+  ion-icon.empty-icon {
+    font-size: 88px;
+    color: var(--anka-salmon);
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--anka-navy);
+    margin: 0 0 8px;
+  }
+
+  p {
+    font-size: 0.88rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}

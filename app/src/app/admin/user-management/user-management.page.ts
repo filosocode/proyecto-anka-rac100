@@ -147,6 +147,10 @@ export class UserManagementPage {
     await alert.present();
   }
 
+  getIniciales(name: string): string {
+    return name.split(' ').slice(0, 2).map(p => p[0] ?? '').join('').toUpperCase();
+  }
+
   getColorRol(role: string): string {
     return role === 'admin' ? 'danger' : 'primary';
   }

@@ -4,41 +4,46 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="dm-content">
 
   @if (drones.length === 0) {
-    <div class="ion-text-center ion-padding">
-      <ion-icon name="airplane-outline" size="large" color="medium"></ion-icon>
-      <p>No hay drones registrados.</p>
+    <div class="empty-state fade-in-up">
+      <ion-icon name="airplane-outline" class="empty-icon"></ion-icon>
+      <h3>Sin drones registrados</h3>
+      <p>Toca + para agregar el primero.</p>
     </div>
   }
 
-  <ion-list>
+  <div class="dm-cards">
     @for (drone of drones; track drone.id) {
-      <ion-item>
-        <ion-label>
-          <h3>{{ drone.model }}</h3>
-          <p>{{ drone.tipo }} &bull; Serie: {{ drone.serial }}</p>
-        </ion-label>
-
-        <ion-badge slot="end" [color]="getColorEstado(drone.status)">
-          {{ getTextoEstado(drone.status) }}
-        </ion-badge>
-
-        <!-- Editar -->
-        <ion-button fill="clear" slot="end" (click)="editarDrone(drone)">
-          <ion-icon name="create-outline" slot="icon-only"></ion-icon>
-        </ion-button>
-
-        <!-- Eliminar -->
-        <ion-button fill="clear" color="danger" slot="end" (click)="eliminarDrone(drone)">
-          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-        </ion-button>
-      </ion-item>
+      <div class="dm-card fade-in-up">
+        <div class="dm-card-header">
+          <div class="dm-icon">
+            <ion-icon name="airplane-outline"></ion-icon>
+          </div>
+          <div class="dm-card-info">
+            <h3 class="dm-model">{{ drone.model }}</h3>
+            <p class="dm-serial">{{ drone.serial }}</p>
+          </div>
+          <span class="dm-status" [class]="'dm-status--' + drone.status">
+            {{ getTextoEstado(drone.status) }}
+          </span>
+        </div>
+        <div class="dm-card-footer">
+          <span class="dm-tipo">{{ drone.tipo ?? 'Sin tipo' }}</span>
+          <div class="dm-actions">
+            <ion-button fill="clear" size="small" (click)="editarDrone(drone)">
+              <ion-icon name="create-outline" slot="icon-only" color="primary"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" size="small" color="danger" (click)="eliminarDrone(drone)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
     }
-  </ion-list>
+  </div>
 
-  <!-- FAB: agregar drone -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="agregarDrone()">
       <ion-icon name="add-outline"></ion-icon>

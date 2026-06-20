@@ -1,50 +1,102 @@
 .login-content {
-  --background: #f4f6fb;
+  --background: linear-gradient(160deg, #364A73 0%, #2e4063 45%, #F25D27 100%);
 }
 
-.login-header {
-  padding: 48px 24px 24px;
-
-  .logo-title {
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--ion-color-primary);
-    margin: 0;
-    letter-spacing: 4px;
-  }
-
-  .logo-sub {
-    font-size: 0.85rem;
-    color: var(--ion-color-medium);
-    margin: 4px 0 0;
-  }
+// ── Hero superior ──────────────────────────────────────────────────────────
+.login-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 52px 24px 24px;
 }
 
+.login-lottie {
+  width: 180px;
+  height: 180px;
+}
+
+.login-logo {
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 10px;
+  margin: 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+}
+
+.login-tagline {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 4px 0 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+// ── Tarjeta ────────────────────────────────────────────────────────────────
 .login-card {
-  background: white;
-  border-radius: 16px;
-  margin: 0 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  padding: 32px 24px 40px;
+  box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.2);
+  min-height: 52vh;
+}
 
-  ion-list {
-    border-radius: 8px;
-    overflow: hidden;
-  }
+.login-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #364A73;
+  margin: 0 0 20px;
+}
 
-  .error-text {
-    font-size: 0.85rem;
-    margin: 8px 4px 0;
+.login-item {
+  --background: #F2F2F2;
+  --border-radius: 10px;
+  --padding-start: 14px;
+  --inner-padding-end: 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+
+  ion-label {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    color: #364A73 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
+}
+
+.login-error {
+  font-size: 0.83rem;
+  color: #C62828;
+  margin: 4px 4px 8px;
+}
+
+.login-btn {
+  margin-top: 20px;
+  --background:      #F25D27;
+  --background-hover: #d45222;
+  --border-radius:   12px;
+  --box-shadow:      0 4px 16px rgba(242, 93, 39, 0.4);
+  height: 52px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.login-footer-links {
+  text-align: center;
+  margin-top: 8px;
 
   ion-button {
-    margin-top: 16px;
-    --border-radius: 8px;
+    --color: #78909C;
+    font-size: 0.82rem;
   }
+}
 
-  .demo-note {
-    display: block;
-    margin-top: 16px;
-    font-size: 0.75rem;
-    color: var(--ion-color-medium);
-  }
+.login-demo {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.73rem;
+  color: #78909C;
 }

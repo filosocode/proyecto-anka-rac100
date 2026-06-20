@@ -2,13 +2,16 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
-  IonList, IonItem, IonLabel, IonButton, IonIcon,
-  AlertController,
+  IonButton, IonIcon, AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { personCircleOutline, logOutOutline, settingsOutline } from 'ionicons/icons';
+import {
+  personCircleOutline, logOutOutline, settingsOutline,
+  cloudDoneOutline, wifiOutline, cloudOfflineOutline,
+} from 'ionicons/icons';
 import { User } from '../../shared/models/user.model';
 import { AuthService } from '../../shared/services/auth.service';
+import { FormService } from '../../shared/services/form.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,25 +19,36 @@ import { AuthService } from '../../shared/services/auth.service';
   standalone: true, // Asegurado para compatibilidad
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
-    IonList, IonItem, IonLabel, IonButton, IonIcon,
+    IonButton, IonIcon,
   ],
 })
 export class ProfilePage {
 
-  // Usuario actual (se obtiene del AuthService)
   user: User | null = null;
+  totalEnviados   = 0;
+  totalBorradores = 0;
+  estaOnline      = true;
 
   constructor(
     private auth: AuthService,
+    private formService: FormService,
     private router: Router,
     private alertCtrl: AlertController,
   ) {
-    addIcons({ personCircleOutline, logOutOutline, settingsOutline });
+    addIcons({ personCircleOutline, logOutOutline, settingsOutline,
+               cloudDoneOutline, wifiOutline, cloudOfflineOutline });
   }
 
   ionViewWillEnter(): void {
-    // TODO 1: Cargar el usuario actual.
-    this.user = this.auth.currentUser();
+    this.user           = this.auth.currentUser();
+    this.totalEnviados  = this.formService.getSubmitted().length;
+    this.totalBorradores = this.formService.getDrafts().length;
+    this.estaOnline     = navigator.onLine;
+  }
+
+  get iniciales(): string {
+    if (!this.user?.name) return '?';
+    return this.user.name.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase();
   }
 
   async editarPerfil(): Promise<void> {

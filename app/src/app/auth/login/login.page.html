@@ -1,51 +1,51 @@
 <ion-content class="login-content">
 
-  <!-- Logo / encabezado -->
-  <div class="login-header ion-text-center ion-padding-top">
-    <h1 class="logo-title">ANKA</h1>
-    <p class="logo-sub">RAC 100 — Formularios Operativos</p>
+  <!-- Fondo superior con animación Lottie -->
+  <div class="login-hero fade-in">
+    <dotlottie-player
+      src="assets/animations/drone.lottie"
+      autoplay
+      loop
+      class="login-lottie">
+    </dotlottie-player>
+    <h1 class="login-logo fade-in-up delay-1">ANKA</h1>
+    <p class="login-tagline fade-in-up delay-2">RAC 100 — Formularios Operativos</p>
   </div>
 
   <!-- Tarjeta del formulario -->
-  <div class="login-card ion-padding">
+  <div class="login-card fade-in-up delay-2">
 
-    <ion-list lines="full" class="ion-no-margin">
+    <h2 class="login-card-title">Iniciar sesión</h2>
 
-      <!-- Campo: email -->
-      <ion-item>
-        <ion-label position="floating">Correo electrónico</ion-label>
-        <ion-input
-          type="email"
-          [(ngModel)]="email"
-          placeholder="usuario@empresa.co"
-          autocomplete="email">
-        </ion-input>
-      </ion-item>
+    <ion-item class="login-item" lines="none">
+      <ion-label position="stacked">Correo electrónico</ion-label>
+      <ion-input
+        type="email"
+        [(ngModel)]="email"
+        placeholder="usuario@empresa.co"
+        autocomplete="email">
+      </ion-input>
+    </ion-item>
 
-      <!-- Campo: contraseña -->
-      <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input
-          type="password"
-          [(ngModel)]="password"
-          placeholder="••••••••"
-          autocomplete="current-password">
-        </ion-input>
-      </ion-item>
+    <ion-item class="login-item" lines="none">
+      <ion-label position="stacked">Contraseña</ion-label>
+      <ion-input
+        type="password"
+        [(ngModel)]="password"
+        placeholder="••••••••"
+        autocomplete="current-password">
+      </ion-input>
+    </ion-item>
 
-    </ion-list>
-
-    <!-- Mensaje de error (solo se muestra si errorMessage no está vacío) -->
     @if (errorMessage) {
       <ion-text color="danger">
-        <p class="error-text">{{ errorMessage }}</p>
+        <p class="login-error">{{ errorMessage }}</p>
       </ion-text>
     }
 
-    <!-- Botón principal -->
     <ion-button
       expand="block"
-      class="ion-margin-top"
+      class="login-btn"
       (click)="login()"
       [disabled]="loading">
       @if (loading) {
@@ -55,16 +55,14 @@
       }
     </ion-button>
 
-    <!-- Link recuperar contraseña -->
-    <div class="ion-text-center ion-margin-top">
+    <div class="login-footer-links">
       <ion-button fill="clear" size="small" routerLink="/recuperar-contrasena">
         ¿Olvidaste tu contraseña?
       </ion-button>
     </div>
 
-    <!-- Credenciales de prueba (quitar antes de entregar) -->
-    <ion-note class="demo-note ion-text-center">
-      Demo: admin&#64;anka.co / 1234 &nbsp;|&nbsp; piloto&#64;anka.co / 1234
+    <ion-note class="login-demo">
+      Demo: admin&#64;anka.co / 1234 &nbsp;·&nbsp; piloto&#64;anka.co / 1234
     </ion-note>
 
   </div>

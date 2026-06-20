@@ -4,11 +4,16 @@ import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonIcon, IonBadge, IonButton, IonButtons,
   IonCard, IonCardHeader, IonCardTitle, IonCardContent,
+  IonChip, IonLabel,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { documentTextOutline, addOutline, archiveOutline } from 'ionicons/icons';
+import {
+  documentTextOutline, addOutline, archiveOutline,
+  clipboardOutline, chevronForwardOutline,
+} from 'ionicons/icons';
 import { FormTemplate } from '../../shared/models/form.model';
 import { FormService } from '../../shared/services/form.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-form-list',
@@ -17,42 +22,38 @@ import { FormService } from '../../shared/services/form.service';
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonIcon, IonBadge, IonButton, IonButtons,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent,
+    IonChip, IonLabel,
   ],
 })
 export class FormListPage implements OnInit {
 
-  // Lista de plantillas de formularios disponibles
   templates: FormTemplate[] = [];
-
-  // Cantidad de borradores guardados (para mostrar badge)
-  draftCount = 0;
+  draftCount  = 0;
+  userName    = 'Piloto';
 
   constructor(
     private formService: FormService,
+    private auth: AuthService,
     private router: Router,
   ) {
-    addIcons({ documentTextOutline, addOutline, archiveOutline });
+    addIcons({ documentTextOutline, addOutline, archiveOutline, clipboardOutline, chevronForwardOutline });
   }
 
-  ngOnInit(): void {
-    this.templates = this.formService.getTemplates().filter(t => t.active);
+  ngOnInit(): void { this._cargar(); }
+
+  ionViewWillEnter(): void { this._cargar(); }
+
+  private _cargar(): void {
+    this.templates  = this.formService.getTemplates().filter(t => t.active);
     this.draftCount = this.formService.getDrafts().length;
+    this.userName   = this.auth.currentUser()?.name?.split(' ')[0] ?? 'Piloto';
   }
 
-  ionViewWillEnter(): void {
-    this.templates = this.formService.getTemplates().filter(t => t.active);
-    this.draftCount = this.formService.getDrafts().length;
-  }
-
-  // Navega a la pantalla de llenado del formulario con el id de la plantilla
   abrirFormulario(templateId: string): void {
-    // TODO 4: Navegar a la ruta de llenado de formulario.
     this.router.navigate(['/home/forms/fill', templateId]);
   }
 
-  // Navega a la pantalla de borradores
   verBorradores(): void {
-    // TODO 5: Navegar a la pantalla de borradores.
     this.router.navigate(['/home/forms/draft']);
   }
 }

@@ -1,0 +1,60 @@
+.ffd-content { --background: #F2F2F2; }
+
+.ffd-list { padding: 14px 14px 88px; }
+
+.ffd-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(54, 74, 115, 0.08);
+  margin-bottom: 10px;
+  padding: 14px 14px 14px 16px;
+}
+
+.ffd-card-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+// Chip de tipo
+.ffd-chip {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.ffd-chip--text     { background: #e3f2fd; color: #364A73; }
+.ffd-chip--number   { background: #e8eaf6; color: #3949ab; }
+.ffd-chip--date     { background: #ede7f6; color: #6a1b9a; }
+.ffd-chip--select   { background: #fff3e0; color: #d45222; }
+.ffd-chip--file     { background: #e8f5e9; color: #2E7D32; }
+.ffd-chip--location { background: #ffebee; color: #C62828; }
+
+.ffd-info { flex: 1; min-width: 0; }
+.ffd-label { font-size: 0.92rem; font-weight: 700; color: #364A73; margin: 0 0 2px; }
+.ffd-key   { font-size: 0.72rem; color: #78909C; font-family: monospace; margin: 0; }
+.ffd-opts  { font-size: 0.72rem; color: #78909C; margin: 4px 0 0; }
+
+.ffd-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ffd-required {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #C62828;
+  background: #ffebee;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}

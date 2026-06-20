@@ -5,26 +5,25 @@
     </ion-buttons>
     <ion-title>{{ template?.title ?? 'Formulario' }}</ion-title>
   </ion-toolbar>
+  <!-- Barra de progreso -->
+  <ion-progress-bar [value]="progreso" color="secondary"></ion-progress-bar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ff-content">
 
   @if (!template) {
-    <p class="ion-text-center">Cargando formulario...</p>
+    <p class="ion-text-center ion-padding">Cargando formulario...</p>
   }
 
   @if (template) {
-    <ion-list>
 
-      <!-- Asociación tipada: selección de drone -->
-      <ion-item>
-        <ion-label position="floating">
-          Drone <ion-text color="danger">*</ion-text>
-        </ion-label>
-        <ion-select
-          [(ngModel)]="selectedDroneId"
-          placeholder="Selecciona el drone..."
-          name="droneId">
+    <!-- Selección de drone -->
+    <div class="ff-section-title">Drone asignado</div>
+    <div class="ff-drone-select">
+      <ion-item lines="none" class="ff-item">
+        <ion-icon name="airplane-outline" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Selecciona el drone <ion-text color="danger">*</ion-text></ion-label>
+        <ion-select [(ngModel)]="selectedDroneId" placeholder="Selecciona..." name="droneId">
           @for (drone of drones; track drone.id) {
             <ion-select-option [value]="drone.id">
               {{ drone.model }} — {{ drone.serial }}
@@ -32,40 +31,39 @@
           }
         </ion-select>
       </ion-item>
+    </div>
+
+    <!-- Campos del formulario -->
+    <div class="ff-section-title">Datos de la operación</div>
+    <div class="ff-fields">
 
       @for (campo of getCampos(); track campo.name) {
 
         <!-- Texto o número -->
         @if (campo.type === 'text' || campo.type === 'number') {
-          <ion-item>
+          <ion-item lines="none" class="ff-item">
             <ion-label position="floating">
               {{ campo.label }}
               @if (campo.required) { <ion-text color="danger">*</ion-text> }
             </ion-label>
-            <ion-input
-              [type]="campo.type"
-              [(ngModel)]="formData[campo.name]">
-            </ion-input>
+            <ion-input [type]="campo.type" [(ngModel)]="formData[campo.name]"></ion-input>
           </ion-item>
         }
 
         <!-- Fecha -->
         @if (campo.type === 'date') {
-          <ion-item>
+          <ion-item lines="none" class="ff-item">
             <ion-label position="floating">
               {{ campo.label }}
               @if (campo.required) { <ion-text color="danger">*</ion-text> }
             </ion-label>
-            <ion-input
-              type="date"
-              [(ngModel)]="formData[campo.name]">
-            </ion-input>
+            <ion-input type="date" [(ngModel)]="formData[campo.name]"></ion-input>
           </ion-item>
         }
 
         <!-- Selección -->
         @if (campo.type === 'select') {
-          <ion-item>
+          <ion-item lines="none" class="ff-item">
             <ion-label position="floating">
               {{ campo.label }}
               @if (campo.required) { <ion-text color="danger">*</ion-text> }
@@ -80,64 +78,60 @@
 
         <!-- Foto / Archivo -->
         @if (campo.type === 'file') {
-          <ion-item>
-            <ion-label>
+          <div class="ff-file-field">
+            <p class="ff-file-label">
               {{ campo.label }}
               @if (campo.required) { <ion-text color="danger">*</ion-text> }
-            </ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <input
-              type="file"
-              accept="image/*"
-              style="margin: 8px 0"
-              (change)="onFileChange($event, campo.name)">
-            @if (formData[campo.name]) {
-              <ion-text color="success" style="font-size:12px; margin-left:8px">
-                <ion-icon name="camera-outline"></ion-icon> {{ formData[campo.name] }}
-              </ion-text>
+            </p>
+            <label class="ff-file-btn">
+              <ion-icon name="cloud-upload-outline"></ion-icon>
+              Adjuntar foto / archivo
+              <input type="file" accept="image/*" (change)="onFileChange($event, campo.name)" hidden>
+            </label>
+            @if (formData[campo.name]?.startsWith('data:image')) {
+              <img [src]="formData[campo.name]" class="ff-img-preview">
+            } @else if (formData[campo.name]) {
+              <p class="ff-file-name">📎 {{ formData[campo.name] }}</p>
             }
-          </ion-item>
+          </div>
         }
 
         <!-- Ubicación GPS -->
         @if (campo.type === 'location') {
-          <ion-item>
-            <ion-label>
+          <div class="ff-gps-field">
+            <p class="ff-file-label">
               {{ campo.label }}
               @if (campo.required) { <ion-text color="danger">*</ion-text> }
-            </ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-button fill="outline" size="small" (click)="obtenerUbicacion(campo.name)">
+            </p>
+            <ion-button color="secondary" size="small" (click)="obtenerUbicacion(campo.name)">
               <ion-icon name="location-outline" slot="start"></ion-icon>
               Obtener GPS
             </ion-button>
             @if (formData[campo.name]) {
-              <ion-text color="medium" style="font-size:12px; margin-left:8px">
-                {{ formData[campo.name] }}
-              </ion-text>
+              <p class="ff-gps-result">📍 {{ formData[campo.name] }}</p>
             }
-          </ion-item>
+          </div>
         }
 
       }
-    </ion-list>
+    </div>
 
     @if (errorMessage) {
       <ion-text color="danger">
-        <p class="ion-padding-start">{{ errorMessage }}</p>
+        <p class="ff-error">{{ errorMessage }}</p>
       </ion-text>
     }
 
-    <div class="ion-padding-top">
-      <ion-button expand="block" fill="outline" (click)="guardarBorrador()">
+    <!-- Acciones -->
+    <div class="ff-actions">
+      <ion-button expand="block" fill="outline" color="primary" (click)="guardarBorrador()">
         Guardar borrador
       </ion-button>
-      <ion-button expand="block" class="ion-margin-top" (click)="enviar()">
+      <ion-button expand="block" color="secondary" (click)="enviar()">
         Enviar formulario
       </ion-button>
     </div>
+
   }
 
 </ion-content>

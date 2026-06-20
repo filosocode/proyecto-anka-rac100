@@ -4,56 +4,61 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="pp-content">
 
-  <!-- Avatar e info del usuario -->
   @if (user) {
-    <div class="ion-text-center ion-padding-top">
-      <ion-icon name="person-circle-outline" style="font-size: 80px" color="primary"></ion-icon>
-      <h2>{{ user.name }}</h2>
-      <p>{{ user.email }}</p>
+
+    <!-- Hero -->
+    <div class="pp-hero fade-in">
+      <div class="pp-avatar">{{ iniciales }}</div>
+      <h2 class="pp-name">{{ user.name }}</h2>
+      <p class="pp-email">{{ user.email }}</p>
+      <span class="pp-role-badge">
+        {{ user.role === 'admin' ? 'Administrador' : 'Piloto' }}
+      </span>
     </div>
 
-    <ion-list>
-      <ion-item>
-        <ion-label>
-          <p>Rol</p>
-          <h3>{{ user.role === 'admin' ? 'Administrador' : 'Piloto' }}</h3>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+    <!-- Estadísticas -->
+    <div class="pp-stats fade-in-up delay-1">
+      <div class="pp-stat">
+        <span class="pp-stat-num">{{ totalEnviados }}</span>
+        <span class="pp-stat-label">Enviados</span>
+      </div>
+      <div class="pp-stat-divider"></div>
+      <div class="pp-stat">
+        <span class="pp-stat-num">{{ totalBorradores }}</span>
+        <span class="pp-stat-label">Borradores</span>
+      </div>
+      <div class="pp-stat-divider"></div>
+      <div class="pp-stat">
+        <ion-icon
+          [name]="estaOnline ? 'wifi-outline' : 'cloud-offline-outline'"
+          [class]="estaOnline ? 'pp-online' : 'pp-offline'">
+        </ion-icon>
+        <span class="pp-stat-label">{{ estaOnline ? 'En línea' : 'Sin conexión' }}</span>
+      </div>
+    </div>
 
-    <!-- Botón editar perfil -->
-    <ion-button
-      expand="block"
-      fill="outline"
-      class="ion-margin-top"
-      (click)="editarPerfil()">
-      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-      Editar perfil
-    </ion-button>
-
-    <!-- Botón del panel admin, solo visible para admins -->
-    @if (esAdmin()) {
-      <ion-button
-        expand="block"
-        fill="outline"
-        class="ion-margin-top"
-        (click)="irAPanelAdmin()">
-        <ion-icon name="settings-outline" slot="start"></ion-icon>
-        Panel de Administración
+    <!-- Acciones -->
+    <div class="pp-actions fade-in-up delay-2">
+      <ion-button expand="block" fill="outline" color="primary" (click)="editarPerfil()">
+        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+        Editar perfil
       </ion-button>
-    }
 
-    <!-- Botón de cerrar sesión -->
-    <ion-button
-      expand="block"
-      color="danger"
-      class="ion-margin-top"
-      (click)="confirmarCierreSesion()">
-      <ion-icon name="log-out-outline" slot="start"></ion-icon>
-      Cerrar sesión
-    </ion-button>
+      @if (esAdmin()) {
+        <ion-button expand="block" fill="outline" color="secondary" (click)="irAPanelAdmin()">
+          <ion-icon name="settings-outline" slot="start"></ion-icon>
+          Panel de Administración
+        </ion-button>
+      }
+
+      <ion-button expand="block" color="danger" (click)="confirmarCierreSesion()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Cerrar sesión
+      </ion-button>
+    </div>
+
   }
 
 </ion-content>

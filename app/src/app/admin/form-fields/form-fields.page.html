@@ -9,40 +9,42 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ffd-content">
 
   @if ((template?.fields?.length ?? 0) === 0) {
-    <div class="ion-text-center ion-padding">
-      <ion-icon name="list-outline" size="large" color="medium"></ion-icon>
-      <p>Sin campos. Toca <strong>+</strong> para agregar el primero.</p>
+    <div class="empty-state fade-in-up">
+      <ion-icon name="list-outline" class="empty-icon"></ion-icon>
+      <h3>Sin campos</h3>
+      <p>Toca + para agregar el primero.</p>
     </div>
   }
 
-  <ion-list>
+  <div class="ffd-list">
     @for (campo of template?.fields ?? []; track campo.name; let i = $index) {
-      <ion-item>
-        <ion-label>
-          <h3>{{ campo.label }}</h3>
-          <p>{{ campo.name }}</p>
-          @if (campo.type === 'select' && campo.options?.length) {
-            <p style="font-size:11px">Opciones: {{ campo.options!.join(', ') }}</p>
-          }
-        </ion-label>
-
-        <ion-badge slot="end" [color]="getTipoColor(campo.type)">
-          {{ getTipoLabel(campo.type) }}
-        </ion-badge>
-
-        @if (campo.required) {
-          <ion-badge slot="end" color="danger">Obligatorio</ion-badge>
-        }
-
-        <ion-button fill="clear" color="danger" slot="end" (click)="eliminarCampo(i)">
-          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-        </ion-button>
-      </ion-item>
+      <div class="ffd-card fade-in-up">
+        <div class="ffd-card-main">
+          <div class="ffd-chip" [class]="'ffd-chip--' + campo.type">
+            {{ getTipoLabel(campo.type) }}
+          </div>
+          <div class="ffd-info">
+            <h3 class="ffd-label">{{ campo.label }}</h3>
+            <p class="ffd-key">{{ campo.name }}</p>
+            @if (campo.type === 'select' && campo.options?.length) {
+              <p class="ffd-opts">Opciones: {{ campo.options!.join(' · ') }}</p>
+            }
+          </div>
+          <div class="ffd-right">
+            @if (campo.required) {
+              <span class="ffd-required">Obligatorio</span>
+            }
+            <ion-button fill="clear" color="danger" size="small" (click)="eliminarCampo(i)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
     }
-  </ion-list>
+  </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="agregarCampo()">

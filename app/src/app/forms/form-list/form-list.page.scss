@@ -1,1 +1,60 @@
-﻿
+.fl-content { --background: #F2F2F2; }
+
+// ── Banner ─────────────────────────────────────────────────────────────────
+.fl-banner {
+  background: linear-gradient(135deg, #364A73 0%, #4a5e87 100%);
+  padding: 20px 20px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.fl-banner-sub  { font-size: 0.72rem; color: rgba(255,255,255,0.65); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+.fl-banner-name { font-size: 1.4rem; font-weight: 800; color: #ffffff; margin: 2px 0 0; }
+.fl-draft-chip  { --background: #F2784B; --color: #fff; cursor: pointer; }
+
+// ── Cards ──────────────────────────────────────────────────────────────────
+.fl-cards { padding: 14px 14px 80px; }
+
+.fl-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 3px 14px rgba(54, 74, 115, 0.10);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+
+  &:active { transform: scale(0.98); box-shadow: 0 1px 6px rgba(54, 74, 115, 0.08); }
+}
+
+.fl-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #F25D27, #F2784B);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon { font-size: 1.5rem; color: #ffffff; }
+}
+
+.fl-card-body { flex: 1; min-width: 0; }
+.fl-card-title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #364A73;
+  margin: 0 0 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fl-card-meta { font-size: 0.78rem; color: #78909C; margin: 0; }
+
+.fl-card-arrow { font-size: 1.1rem; color: #F25D27; flex-shrink: 0; }
