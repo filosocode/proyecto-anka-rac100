@@ -157,8 +157,13 @@ export class FormFillPage implements OnInit {
 
   onFileChange(event: Event, fieldName: string): void {
     const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      this.formData[fieldName] = input.files[0].name;
-    }
+    if (!input.files?.length) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      // Guarda el base64 completo — se persiste en localStorage
+      this.formData[fieldName] = reader.result as string;
+    };
+    reader.readAsDataURL(input.files[0]);
   }
 }

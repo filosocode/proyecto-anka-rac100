@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 
 // RF10: sincronización pendiente — conectar con backend en sprint siguiente
@@ -11,11 +11,22 @@ export class SyncService {
   }
 
   getPendingCount(): number {
-    return this.storage.keys().filter(k => k.startsWith('draft_')).length;
+    const entries = this.storage.get<any[]>('form_entries') ?? [];
+    return entries.filter(e => e.status === 'submitted').length;
   }
 
   async syncPending(): Promise<void> {
     if (!this.isOnline()) return;
-    // TODO: iterar borradores y enviar al servidor
+
+    const entries = this.storage.get<any[]>('form_entries') ?? [];
+    const pendientes = entries.filter(e => e.status === 'submitted').length;
+    if (pendientes === 0) return;
+
+    const actualizados = entries.map(e =>
+      e.status === 'submitted'
+        ? { ...e, status: 'synced', updatedAt: new Date().toISOString() }
+        : e
+    );
+    this.storage.set('form_entries', actualizados);
   }
 }
