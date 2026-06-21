@@ -19,8 +19,17 @@
       <div class="fmg-card fade-in-up">
         <div class="fmg-card-top">
           <div class="fmg-card-info">
-            <h3 class="fmg-title">{{ tpl.title }}</h3>
-            <p class="fmg-meta">{{ tpl.fields.length }} campo(s)</p>
+            @if (editandoId === tpl.id) {
+              <ion-input
+                class="fmg-edit-input"
+                [(ngModel)]="editandoTitulo"
+                placeholder="Título del formulario"
+                autofocus="true">
+              </ion-input>
+            } @else {
+              <h3 class="fmg-title">{{ tpl.title }}</h3>
+              <p class="fmg-meta">{{ tpl.fields.length }} campo(s)</p>
+            }
           </div>
           <div class="fmg-toggle-wrap">
             <ion-toggle
@@ -34,17 +43,28 @@
           </div>
         </div>
         <div class="fmg-card-actions">
-          <ion-button fill="outline" size="small" color="primary" (click)="gestionarCampos(tpl.id)">
-            <ion-icon name="list-outline" slot="start"></ion-icon>
-            Campos
-          </ion-button>
-          <ion-button fill="outline" size="small" (click)="editarFormulario(tpl)">
-            <ion-icon name="create-outline" slot="start"></ion-icon>
-            Editar
-          </ion-button>
-          <ion-button fill="clear" size="small" color="danger" (click)="eliminarFormulario(tpl)">
-            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-          </ion-button>
+          @if (editandoId === tpl.id) {
+            <ion-button fill="solid" size="small" color="primary" (click)="guardarEdicion(tpl)">
+              <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+              Guardar
+            </ion-button>
+            <ion-button fill="clear" size="small" (click)="cancelarEdicion()">
+              <ion-icon name="close-outline" slot="start"></ion-icon>
+              Cancelar
+            </ion-button>
+          } @else {
+            <ion-button fill="outline" size="small" color="primary" (click)="gestionarCampos(tpl.id)">
+              <ion-icon name="list-outline" slot="start"></ion-icon>
+              Campos
+            </ion-button>
+            <ion-button fill="outline" size="small" (click)="iniciarEdicion(tpl)">
+              <ion-icon name="create-outline" slot="start"></ion-icon>
+              Editar
+            </ion-button>
+            <ion-button fill="clear" size="small" color="danger" (click)="eliminarFormulario(tpl)">
+              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          }
         </div>
       </div>
     }

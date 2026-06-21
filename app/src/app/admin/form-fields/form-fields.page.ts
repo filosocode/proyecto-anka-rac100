@@ -1,23 +1,29 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
-  IonList, IonItem, IonLabel, IonBadge, IonIcon, IonButton,
+  IonIcon, IonButton, IonInput, IonToggle, IonSelect, IonSelectOption,
   IonButtons, IonFab, IonFabButton,
   AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, trashOutline, listOutline, arrowBackOutline } from 'ionicons/icons';
+import {
+  addOutline, trashOutline, listOutline, arrowBackOutline,
+  createOutline, checkmarkOutline, closeOutline,
+} from 'ionicons/icons';
 import { FormField, FormTemplate } from '../../shared/models/form.model';
 import { FormService } from '../../shared/services/form.service';
 
 @Component({
   selector: 'app-form-fields',
   templateUrl: 'form-fields.page.html',
+  styleUrl: './form-fields.page.scss',
   standalone: true,
   imports: [
-      IonContent, IonHeader, IonTitle, IonToolbar,
-    IonList, IonItem, IonLabel, IonBadge, IonIcon, IonButton,
+    FormsModule,
+    IonContent, IonHeader, IonTitle, IonToolbar,
+    IonIcon, IonButton, IonInput, IonToggle, IonSelect, IonSelectOption,
     IonButtons, IonFab, IonFabButton,
   ],
 })
@@ -26,13 +32,28 @@ export class FormFieldsPage {
   template: FormTemplate | null = null;
   private _bufferCampo: Partial<FormField> | null = null;
 
+  editandoIdx: number | null = null;
+  editandoLabel = '';
+  editandoTipo = '';
+  editandoOpciones = '';
+  editandoRequerido = false;
+
+  readonly tiposDisponibles = [
+    { value: 'text',     label: 'Texto' },
+    { value: 'number',   label: 'Número' },
+    { value: 'date',     label: 'Fecha' },
+    { value: 'select',   label: 'Selección' },
+    { value: 'file',     label: 'Foto / Archivo' },
+    { value: 'location', label: 'Ubicación GPS' },
+  ];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private formService: FormService,
     private alertCtrl: AlertController,
   ) {
-    addIcons({ addOutline, trashOutline, listOutline, arrowBackOutline });
+    addIcons({ addOutline, trashOutline, listOutline, arrowBackOutline, createOutline, checkmarkOutline, closeOutline });
   }
 
   volver(): void {
@@ -43,6 +64,39 @@ export class FormFieldsPage {
     const id = this.route.snapshot.paramMap.get('id');
     this.template = id ? this.formService.getTemplate(id) : null;
     if (!this.template) this.router.navigate(['/admin/forms']);
+    this.editandoIdx = null;
+  }
+
+  iniciarEdicionCampo(i: number): void {
+    const campo = this.template!.fields[i];
+    this.editandoIdx = i;
+    this.editandoLabel = campo.label;
+    this.editandoTipo = campo.type;
+    this.editandoRequerido = campo.required;
+    this.editandoOpciones = campo.options?.join(', ') ?? '';
+  }
+
+  cancelarEdicionCampo(): void {
+    this.editandoIdx = null;
+  }
+
+  guardarEdicionCampo(i: number): void {
+    if (!this.template || !this.editandoLabel.trim()) return;
+    const campo = this.template.fields[i];
+    const actualizado: FormField = {
+      ...campo,
+      label: this.editandoLabel.trim(),
+      type: this.editandoTipo as FormField['type'],
+      required: this.editandoRequerido,
+      options: this.editandoTipo === 'select'
+        ? this.editandoOpciones.split(',').map(o => o.trim()).filter(o => o.length > 0)
+        : undefined,
+    };
+    const fields = [...this.template.fields];
+    fields[i] = actualizado;
+    this.formService.saveTemplate({ ...this.template, fields });
+    this.template = this.formService.getTemplate(this.template.id);
+    this.editandoIdx = null;
   }
 
   // Paso 1: etiqueta y clave

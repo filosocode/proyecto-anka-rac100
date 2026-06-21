@@ -13,6 +13,7 @@ import { DroneService } from '../../shared/services/drone.service';
 @Component({
   selector: 'app-drone-management',
   templateUrl: 'drone-management.page.html',
+  styleUrl: './drone-management.page.scss',
   standalone: true,
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,

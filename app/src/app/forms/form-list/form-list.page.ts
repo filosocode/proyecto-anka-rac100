@@ -18,6 +18,7 @@ import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'app-form-list',
   templateUrl: 'form-list.page.html',
+  styleUrl: './form-list.page.scss',
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonIcon, IonBadge, IonButton, IonButtons,

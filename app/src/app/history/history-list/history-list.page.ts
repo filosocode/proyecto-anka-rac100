@@ -12,6 +12,7 @@ import { FormService } from '../../shared/services/form.service';
 @Component({
   selector: 'app-history-list',
   templateUrl: 'history-list.page.html',
+  styleUrl: './history-list.page.scss',
   standalone: true,
   imports: [
     RouterModule,

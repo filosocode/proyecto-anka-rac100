@@ -1,20 +1,22 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
-  IonButton, IonContent, IonInput, IonItem,
-  IonLabel, IonNote, IonText, IonSpinner,
+  IonButton, IonContent, IonInput, IonIcon, IonSpinner,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { mailOutline, lockClosedOutline, arrowForwardOutline, alertCircleOutline, shieldCheckmarkOutline, informationCircleOutline } from 'ionicons/icons';
+import { DroneComponent } from '../../shared/components/drone/drone.component';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  styleUrl: './login.page.scss',
   imports: [
-    FormsModule,
-    IonContent, IonItem, IonLabel, IonInput,
-    IonButton, IonNote, IonText, IonSpinner,
+    FormsModule, RouterLink,
+    IonContent, IonInput, IonButton, IonIcon, IonSpinner,
+    DroneComponent,
   ],
 })
 export class LoginPage {
@@ -26,7 +28,9 @@ export class LoginPage {
   constructor(
     private auth: AuthService,
     private router: Router,
-  ) {}
+  ) {
+    addIcons({ mailOutline, lockClosedOutline, arrowForwardOutline, alertCircleOutline, shieldCheckmarkOutline, informationCircleOutline });
+  }
 
   login(): void {
     if (!this.email || !this.password) {

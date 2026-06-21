@@ -9,6 +9,13 @@
   <ion-progress-bar [value]="progreso" color="secondary"></ion-progress-bar>
 </ion-header>
 
+<!-- Overlay de envío con dron animado -->
+@if (enviando) {
+  <div class="ff-overlay fade-in">
+    <app-drone size="md" label="Enviando..."></app-drone>
+  </div>
+}
+
 <ion-content class="ff-content">
 
   @if (!template) {

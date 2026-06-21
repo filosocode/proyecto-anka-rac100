@@ -14,6 +14,7 @@
       <h2 class="pp-name">{{ user.name }}</h2>
       <p class="pp-email">{{ user.email }}</p>
       <span class="pp-role-badge">
+        <ion-icon [name]="user.role === 'admin' ? 'shield-checkmark-outline' : 'person-circle-outline'"></ion-icon>
         {{ user.role === 'admin' ? 'Administrador' : 'Piloto' }}
       </span>
     </div>
@@ -35,12 +36,26 @@
           [name]="estaOnline ? 'wifi-outline' : 'cloud-offline-outline'"
           [class]="estaOnline ? 'pp-online' : 'pp-offline'">
         </ion-icon>
-        <span class="pp-stat-label">{{ estaOnline ? 'En línea' : 'Sin conexión' }}</span>
+        <span class="pp-stat-label">{{ estaOnline ? 'En línea' : 'Offline' }}</span>
+      </div>
+    </div>
+
+    <!-- Toggle de tema -->
+    <div class="pp-theme-row fade-in-up delay-2" (click)="theme.toggle()">
+      <div class="pp-theme-icon">
+        <ion-icon [name]="theme.isDark() ? 'moon-outline' : 'sunny-outline'"></ion-icon>
+      </div>
+      <div class="pp-theme-info">
+        <span class="pp-theme-title">Apariencia</span>
+        <span class="pp-theme-sub">{{ theme.isDark() ? 'Modo oscuro activo' : 'Modo claro activo' }}</span>
+      </div>
+      <div class="pp-toggle" [class.pp-toggle--on]="theme.isDark()">
+        <div class="pp-toggle-thumb"></div>
       </div>
     </div>
 
     <!-- Acciones -->
-    <div class="pp-actions fade-in-up delay-2">
+    <div class="pp-actions fade-in-up delay-3">
       <ion-button expand="block" fill="outline" color="primary" (click)="editarPerfil()">
         <ion-icon name="person-circle-outline" slot="start"></ion-icon>
         Editar perfil

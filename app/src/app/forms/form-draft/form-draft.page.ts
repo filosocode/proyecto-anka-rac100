@@ -14,6 +14,7 @@ import { FormService } from '../../shared/services/form.service';
 @Component({
   selector: 'app-form-draft',
   templateUrl: 'form-draft.page.html',
+  styleUrl: './form-draft.page.scss',
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonButtons, IonBackButton, IonList, IonItem,

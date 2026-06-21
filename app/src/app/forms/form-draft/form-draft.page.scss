@@ -1,34 +1,33 @@
-.fd-content { --background: #F2F2F2; }
+.fd-content { --background: var(--anka-bg); }
 
-.fd-list { padding: 14px 14px 80px; }
+.fd-list { padding: 16px 16px 90px; }
 
 .fd-card {
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(54, 74, 115, 0.08);
+  background: var(--anka-surface);
+  border-radius: 18px;
+  box-shadow: var(--anka-card-shadow);
+  border: 1px solid var(--anka-border);
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 16px;
+  padding: 16px 18px;
   margin-bottom: 12px;
   cursor: pointer;
-  transition: transform 0.15s;
-  &:active { transform: scale(0.98); }
+  transition: transform 0.15s ease;
+  &:active { transform: scale(0.975); }
 }
 
 .fd-card-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 50px; height: 50px;
+  border-radius: 14px;
   background: linear-gradient(135deg, #F2784B, #F2A285);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  ion-icon { font-size: 1.3rem; color: #ffffff; }
+  box-shadow: 0 3px 10px rgba(242, 120, 75, 0.35);
+  ion-icon { font-size: 1.45rem; color: #ffffff; }
 }
 
-.fd-card-body   { flex: 1; min-width: 0; }
-.fd-card-title  { font-size: 0.93rem; font-weight: 700; color: #364A73; margin: 0 0 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fd-card-date   { font-size: 0.76rem; color: #78909C; margin: 0; }
-.fd-continue    { font-size: 0.78rem; font-weight: 700; color: #F25D27; white-space: nowrap; }
+.fd-card-body  { flex: 1; min-width: 0; }
+.fd-card-title { font-size: 0.97rem; font-weight: 700; color: var(--anka-text); margin: 0 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fd-card-date  { font-size: 0.76rem; color: var(--anka-text-muted); margin: 0; }
+.fd-continue   { font-size: 0.8rem; font-weight: 800; color: #F25D27; white-space: nowrap; background: rgba(242,93,39,0.1); padding: 5px 12px; border-radius: 20px; }

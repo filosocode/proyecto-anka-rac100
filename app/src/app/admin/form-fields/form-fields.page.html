@@ -22,26 +22,59 @@
   <div class="ffd-list">
     @for (campo of template?.fields ?? []; track campo.name; let i = $index) {
       <div class="ffd-card fade-in-up">
-        <div class="ffd-card-main">
-          <div class="ffd-chip" [class]="'ffd-chip--' + campo.type">
-            {{ getTipoLabel(campo.type) }}
-          </div>
-          <div class="ffd-info">
-            <h3 class="ffd-label">{{ campo.label }}</h3>
-            <p class="ffd-key">{{ campo.name }}</p>
-            @if (campo.type === 'select' && campo.options?.length) {
-              <p class="ffd-opts">Opciones: {{ campo.options!.join(' · ') }}</p>
+
+        @if (editandoIdx === i) {
+          <!-- Modo edición -->
+          <div class="ffd-edit">
+            <ion-input class="ffd-edit-input" [(ngModel)]="editandoLabel" placeholder="Etiqueta del campo"></ion-input>
+            <ion-select class="ffd-edit-select" [(ngModel)]="editandoTipo" interface="action-sheet" label="Tipo de campo" labelPlacement="stacked">
+              @for (t of tiposDisponibles; track t.value) {
+                <ion-select-option [value]="t.value">{{ t.label }}</ion-select-option>
+              }
+            </ion-select>
+            @if (editandoTipo === 'select') {
+              <ion-input class="ffd-edit-input" [(ngModel)]="editandoOpciones" placeholder="Opciones separadas por coma"></ion-input>
             }
+            <div class="ffd-edit-row">
+              <span class="ffd-edit-lbl">Obligatorio</span>
+              <ion-toggle [(ngModel)]="editandoRequerido" color="primary"></ion-toggle>
+            </div>
+            <div class="ffd-edit-actions">
+              <ion-button size="small" color="primary" (click)="guardarEdicionCampo(i)">
+                <ion-icon name="checkmark-outline" slot="start"></ion-icon>Guardar
+              </ion-button>
+              <ion-button size="small" fill="clear" (click)="cancelarEdicionCampo()">
+                <ion-icon name="close-outline" slot="start"></ion-icon>Cancelar
+              </ion-button>
+            </div>
           </div>
-          <div class="ffd-right">
-            @if (campo.required) {
-              <span class="ffd-required">Obligatorio</span>
-            }
-            <ion-button fill="clear" color="danger" size="small" (click)="eliminarCampo(i)">
-              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-            </ion-button>
+        } @else {
+          <!-- Modo lectura -->
+          <div class="ffd-card-main">
+            <div class="ffd-chip" [class]="'ffd-chip--' + campo.type">
+              {{ getTipoLabel(campo.type) }}
+            </div>
+            <div class="ffd-info">
+              <h3 class="ffd-label">{{ campo.label }}</h3>
+              <p class="ffd-key">{{ campo.name }}</p>
+              @if (campo.type === 'select' && campo.options?.length) {
+                <p class="ffd-opts">Opciones: {{ campo.options!.join(' · ') }}</p>
+              }
+            </div>
+            <div class="ffd-right">
+              @if (campo.required) {
+                <span class="ffd-required">Obligatorio</span>
+              }
+              <ion-button fill="clear" size="small" (click)="iniciarEdicionCampo(i)">
+                <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" color="danger" size="small" (click)="eliminarCampo(i)">
+                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </div>
           </div>
-        </div>
+        }
+
       </div>
     }
   </div>

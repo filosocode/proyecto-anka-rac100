@@ -1,87 +1,179 @@
-.ff-content { --background: #F2F2F2; }
+// ── Overlay de envío ──────────────────────────────────────────────────────────
+.ff-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(13, 24, 38, 0.88);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: overlayIn 0.3s ease both;
+}
 
+@keyframes overlayIn {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to   { opacity: 1; backdrop-filter: blur(6px); }
+}
+
+// ── Contenido ─────────────────────────────────────────────────────────────────
+.ff-content { --background: var(--anka-bg); }
+
+ion-progress-bar {
+  --buffer-background: rgba(255,255,255,0.2);
+  --background: rgba(255,255,255,0.2);
+  --progress-background: #F25D27;
+  height: 4px;
+}
+
+// ── Secciones ─────────────────────────────────────────────────────────────────
 .ff-section-title {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: #78909C;
-  padding: 18px 18px 8px;
+  color: var(--anka-text-muted);
+  padding: 20px 18px 8px;
 }
 
-// ── Items de campo ─────────────────────────────────────────────────────────
 .ff-drone-select,
-.ff-fields { padding: 0 14px; }
+.ff-fields { padding: 0 16px; }
 
+// ── Items de campo ────────────────────────────────────────────────────────────
 .ff-item {
-  --background: #ffffff;
-  --border-radius: 12px;
-  --padding-start: 14px;
-  --inner-padding-end: 14px;
-  border-radius: 12px;
+  --background: var(--anka-surface);
+  --color: var(--anka-text);
+  --border-radius: 14px;
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  --min-height: 58px;
+  border-radius: 14px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 8px rgba(54, 74, 115, 0.07);
+  box-shadow: var(--anka-card-shadow);
+  border: 1px solid var(--anka-border);
   overflow: hidden;
+  transition: box-shadow 0.2s;
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px rgba(54,74,115,0.18), var(--anka-card-shadow);
+  }
+
+  ion-label {
+    --color: var(--anka-text-label) !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  ion-input, ion-select {
+    --color: var(--anka-text);
+    font-size: 0.96rem;
+    font-weight: 500;
+  }
 }
 
-// ── Campo foto ─────────────────────────────────────────────────────────────
+// ── Campo foto / GPS ──────────────────────────────────────────────────────────
 .ff-file-field,
 .ff-gps-field {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 14px 16px;
+  background: var(--anka-surface);
+  border-radius: 14px;
+  padding: 16px 18px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 8px rgba(54, 74, 115, 0.07);
+  box-shadow: var(--anka-card-shadow);
+  border: 1px solid var(--anka-border);
 }
 
 .ff-file-label {
-  font-size: 0.82rem;
-  color: #364A73;
-  font-weight: 600;
-  margin: 0 0 10px;
+  font-size: 0.72rem;
+  color: var(--anka-text-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 0 0 12px;
+  display: block;
 }
 
 .ff-file-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #364A73, #4a5e87);
+  background: linear-gradient(135deg, #364A73, #2e4063);
   color: #ffffff;
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
   cursor: pointer;
-  ion-icon { font-size: 1.1rem; }
+  box-shadow: 0 4px 14px rgba(54,74,115,0.3);
+  transition: transform 0.1s;
+  ion-icon { font-size: 1.2rem; }
+  &:active { transform: scale(0.97); }
 }
 
 .ff-img-preview {
   display: block;
-  max-width: 100%;
-  max-height: 220px;
-  border-radius: 10px;
-  margin-top: 12px;
+  width: 100%;
+  max-height: 200px;
+  border-radius: 12px;
+  margin-top: 14px;
   object-fit: cover;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14);
 }
 
-.ff-file-name { font-size: 0.8rem; color: #78909C; margin: 8px 0 0; }
+.ff-file-name {
+  font-size: 0.8rem;
+  color: var(--anka-text-label);
+  margin: 10px 0 0;
+  font-weight: 500;
+}
 
 .ff-gps-result {
-  font-size: 0.8rem;
-  color: #364A73;
-  margin: 10px 0 0;
+  font-size: 0.82rem;
+  color: var(--anka-text-label);
+  margin: 12px 0 0;
+  font-weight: 600;
   font-family: monospace;
+  background: var(--anka-surface-2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--anka-border);
 }
 
-.ff-error { font-size: 0.83rem; margin: 4px 18px 0; }
+.ff-error {
+  font-size: 0.85rem;
+  margin: 0 16px 10px;
+  color: #c62828;
+  background: rgba(198, 40, 40, 0.1);
+  border: 1px solid rgba(198, 40, 40, 0.25);
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-// ── Acciones ───────────────────────────────────────────────────────────────
+// ── Acciones ──────────────────────────────────────────────────────────────────
 .ff-actions {
-  padding: 20px 14px 40px;
+  padding: 24px 16px 52px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 
-  ion-button { --border-radius: 12px; height: 50px; font-weight: 700; }
+  ion-button {
+    --border-radius: 14px;
+    height: 54px;
+    font-weight: 700;
+    font-size: 0.98rem;
+    letter-spacing: 0.3px;
+  }
+  ion-button[color="secondary"] {
+    --background: linear-gradient(135deg, #F25D27, #F2784B);
+    --box-shadow: 0 6px 20px rgba(242, 93, 39, 0.45);
+  }
+  ion-button[fill="outline"] {
+    --border-color: #364A73;
+    --color: #364A73;
+    --border-width: 1.5px;
+  }
 }

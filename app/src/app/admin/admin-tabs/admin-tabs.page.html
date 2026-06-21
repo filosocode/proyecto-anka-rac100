@@ -1,11 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Panel Admin — ANKA RAC 100</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="cerrarSesion()">
-        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -26,6 +21,11 @@
     <ion-tab-button tab="forms" href="/admin/forms">
       <ion-icon name="document-text-outline"></ion-icon>
       <ion-label>Formularios</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile" href="/admin/profile">
+      <ion-icon name="person-circle-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
     </ion-tab-button>
 
   </ion-tab-bar>

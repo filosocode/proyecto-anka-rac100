@@ -14,16 +14,19 @@ import { Drone } from '../../shared/models/drone.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { FormService } from '../../shared/services/form.service';
 import { DroneService } from '../../shared/services/drone.service';
+import { DroneComponent } from '../../shared/components/drone/drone.component';
 
 @Component({
   selector: 'app-form-fill',
   templateUrl: 'form-fill.page.html',
+  styleUrl: './form-fill.page.scss',
   imports: [
     FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonButtons, IonBackButton, IonList, IonItem,
     IonLabel, IonInput, IonSelect, IonSelectOption,
     IonButton, IonIcon, IonText, IonProgressBar,
+    DroneComponent,
   ],
 })
 export class FormFillPage implements OnInit {
@@ -32,6 +35,7 @@ export class FormFillPage implements OnInit {
   formData: Record<string, string> = {};
   errorMessage = '';
   editingEntryId: string | null = null;
+  enviando = false;
   drones: Drone[] = [];
   selectedDroneId = '';
 
@@ -116,18 +120,22 @@ export class FormFillPage implements OnInit {
         {
           text: 'Enviar',
           handler: () => {
-            const entry: FormEntry = {
-              id: this.editingEntryId || this.formService.generateId(),
-              templateId: this.template!.id,
-              pilotId: this.auth.currentUser()?.id || 'unknown',
-              droneId: this.selectedDroneId,
-              data: this.formData,
-              status: 'submitted',
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            };
-            this.formService.saveEntry(entry);
-            this.router.navigate(['/home/history']);
+            this.enviando = true;
+            setTimeout(() => {
+              const entry: FormEntry = {
+                id: this.editingEntryId || this.formService.generateId(),
+                templateId: this.template!.id,
+                pilotId: this.auth.currentUser()?.id || 'unknown',
+                droneId: this.selectedDroneId,
+                data: this.formData,
+                status: 'submitted',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+              };
+              this.formService.saveEntry(entry);
+              this.enviando = false;
+              this.router.navigate(['/home/history']);
+            }, 2000);
           }
         },
       ],

@@ -1,102 +1,250 @@
-.login-content {
-  --background: linear-gradient(160deg, #364A73 0%, #2e4063 45%, #F25D27 100%);
+// ── Fondo: glow puntual naranja (el gradiente base lo pone global.scss) ───────
+.login-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
 }
 
-// ── Hero superior ──────────────────────────────────────────────────────────
+.login-bg-glow {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 93, 39, 0.14) 0%, transparent 70%);
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+  50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.15); }
+}
+
+// ── Hero ──────────────────────────────────────────────────────────────────────
 .login-hero {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 52px 24px 24px;
+  padding-top: 44px;
+  padding-bottom: 10px;
 }
 
-.login-lottie {
-  width: 180px;
-  height: 180px;
-}
+.login-brand { text-align: center; margin-top: 4px; }
 
 .login-logo {
-  font-size: 3.2rem;
+  font-size: 3rem;
   font-weight: 900;
   color: #ffffff;
-  letter-spacing: 10px;
+  letter-spacing: 14px;
   margin: 0;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 0 40px rgba(242, 93, 39, 0.45), 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .login-tagline {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.75);
-  margin: 4px 0 0;
-  letter-spacing: 1px;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.42);
+  margin: 5px 0 0;
+  letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-// ── Tarjeta ────────────────────────────────────────────────────────────────
+// ── Card ──────────────────────────────────────────────────────────────────────
 .login-card {
-  background: #ffffff;
-  border-radius: 24px 24px 0 0;
-  padding: 32px 24px 40px;
-  box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.2);
-  min-height: 52vh;
+  position: relative;
+  z-index: 2;
+  background: var(--anka-surface);
+  border-radius: 32px 32px 0 0;
+  padding: 8px 26px 48px;
+  box-shadow: 0 -16px 56px rgba(0, 0, 0, 0.45);
+  min-height: 56vh;
+}
+
+// Handle naranja — marca de la app
+.login-handle {
+  width: 44px;
+  height: 4px;
+  background: linear-gradient(90deg, #F25D27, #F2784B);
+  border-radius: 2px;
+  margin: 0 auto 22px;
+  box-shadow: 0 0 10px rgba(242, 93, 39, 0.5);
+}
+
+// ── Encabezado con badge ──────────────────────────────────────────────────────
+.login-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.login-card-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #F25D27, #F2784B);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(242, 93, 39, 0.45);
+
+  ion-icon {
+    font-size: 1.55rem;
+    color: #ffffff;
+  }
 }
 
 .login-card-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #364A73;
-  margin: 0 0 20px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--anka-text);
+  margin: 0 0 3px;
+  line-height: 1.1;
 }
 
-.login-item {
-  --background: #F2F2F2;
-  --border-radius: 10px;
-  --padding-start: 14px;
-  --inner-padding-end: 14px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  overflow: hidden;
-
-  ion-label {
-    font-size: 0.72rem !important;
-    font-weight: 600 !important;
-    color: #364A73 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+.login-card-sub {
+  font-size: 0.8rem;
+  color: var(--anka-text-muted);
+  margin: 0;
+  line-height: 1.4;
 }
 
-.login-error {
-  font-size: 0.83rem;
-  color: #C62828;
-  margin: 4px 4px 8px;
+// ── Divisor ───────────────────────────────────────────────────────────────────
+.login-divider {
+  height: 1px;
+  background: var(--anka-divider);
+  margin-bottom: 22px;
 }
 
-.login-btn {
-  margin-top: 20px;
-  --background:      #F25D27;
-  --background-hover: #d45222;
-  --border-radius:   12px;
-  --box-shadow:      0 4px 16px rgba(242, 93, 39, 0.4);
-  height: 52px;
-  font-weight: 700;
-  font-size: 1rem;
-}
+// ── Campos ────────────────────────────────────────────────────────────────────
+.lf-group { margin-bottom: 16px; }
 
-.login-footer-links {
-  text-align: center;
-  margin-top: 8px;
-
-  ion-button {
-    --color: #78909C;
-    font-size: 0.82rem;
-  }
-}
-
-.login-demo {
+.lf-label {
   display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--anka-text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  margin-bottom: 7px;
+}
+
+.login-links {
   text-align: center;
-  margin-top: 12px;
-  font-size: 0.73rem;
-  color: #78909C;
+  margin-top: 6px;
+}
+
+.lf-forgot {
+  --color: #F25D27;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.lf-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--anka-surface-2);
+  border: 1.5px solid var(--anka-border);
+  border-radius: 14px;
+  padding: 4px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: #F25D27;
+    box-shadow: 0 0 0 3px rgba(242, 93, 39, 0.12);
+  }
+}
+
+.lf-icon {
+  font-size: 1.15rem;
+  color: var(--anka-text-muted);
+  flex-shrink: 0;
+  margin-right: 10px;
+  transition: color 0.2s;
+  .lf-wrap:focus-within & { color: #F25D27; }
+}
+
+.lf-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --color: var(--anka-text);
+  --placeholder-color: var(--anka-text-muted);
+  --background: transparent;
+  font-size: 0.97rem;
+  flex: 1;
+  min-height: 44px;
+}
+
+// ── Error ─────────────────────────────────────────────────────────────────────
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(198, 40, 40, 0.08);
+  border: 1px solid rgba(198, 40, 40, 0.28);
+  border-radius: 12px;
+  padding: 11px 14px;
+  margin-bottom: 14px;
+  font-size: 0.83rem;
+  color: #c62828;
+  font-weight: 500;
+  ion-icon { font-size: 1.1rem; flex-shrink: 0; }
+}
+
+// ── Botón ─────────────────────────────────────────────────────────────────────
+.login-btn {
+  --background: linear-gradient(135deg, #F25D27, #F2784B);
+  --background-activated: #d45222;
+  --border-radius: 16px;
+  --box-shadow: 0 8px 24px rgba(242, 93, 39, 0.45);
+  --color: #ffffff;
+  height: 56px;
+  margin-top: 8px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  &:active { transform: scale(0.98); }
+}
+
+// ── Demo hint chip ────────────────────────────────────────────────────────────
+.login-demo-chip {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(54, 74, 115, 0.06);
+  border: 1px solid rgba(54, 74, 115, 0.12);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-top: 16px;
+
+  ion-icon {
+    font-size: 1rem;
+    color: var(--anka-text-label);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+}
+
+.login-demo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  span {
+    font-size: 0.72rem;
+    color: var(--anka-text-muted);
+    line-height: 1.5;
+
+    strong {
+      color: var(--anka-text-label);
+      font-weight: 700;
+    }
+  }
 }

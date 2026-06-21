@@ -70,6 +70,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./admin/form-management/form-management.page').then(m => m.FormManagementPage),
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./profile/profile-page/profile.page').then(m => m.ProfilePage),
+      },
     ],
   },
 

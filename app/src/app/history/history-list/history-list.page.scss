@@ -1,62 +1,42 @@
-.hl-content { --background: #F2F2F2; }
+.hl-content { --background: var(--anka-bg); }
 
-.hl-list { padding: 14px 14px 80px; }
+.hl-list { padding: 16px 16px 90px; }
 
-// ── Tarjeta timeline ───────────────────────────────────────────────────────
 .hl-card {
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(54, 74, 115, 0.08);
+  background: var(--anka-surface);
+  border-radius: 18px;
+  box-shadow: var(--anka-card-shadow);
+  border: 1px solid var(--anka-border);
   display: flex;
   overflow: hidden;
   margin-bottom: 12px;
+  transition: transform 0.15s ease;
+  &:active { transform: scale(0.98); }
 }
 
-.hl-card-bar {
-  width: 5px;
-  flex-shrink: 0;
-}
-.hl-card--synced   .hl-card-bar { background: #2E7D32; }
-.hl-card--submitted .hl-card-bar { background: #F2784B; }
-.hl-card--draft    .hl-card-bar { background: #78909C; }
+.hl-card-bar { width: 5px; flex-shrink: 0; }
+.hl-card--synced    .hl-card-bar { background: linear-gradient(180deg, #2E7D32, #43a047); }
+.hl-card--submitted .hl-card-bar { background: linear-gradient(180deg, #F2784B, #F25D27); }
+.hl-card--draft     .hl-card-bar { background: linear-gradient(180deg, #b0bec5, #90a4ae); }
 
-.hl-card-body {
-  flex: 1;
-  padding: 14px 16px;
-}
+.hl-card-body { flex: 1; padding: 14px 16px; }
 
-.hl-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-}
+.hl-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.hl-card-title { font-size: 0.97rem; font-weight: 700; color: var(--anka-text); margin: 0; flex: 1; line-height: 1.35; }
+.hl-card-date  { font-size: 0.75rem; color: var(--anka-text-muted); margin: 6px 0 0; font-weight: 500; }
 
-.hl-card-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #364A73;
-  margin: 0;
-  flex: 1;
-}
-
-.hl-card-date {
-  font-size: 0.78rem;
-  color: #78909C;
-  margin: 5px 0 0;
-}
-
-// ── Badge de estado ────────────────────────────────────────────────────────
 .hl-badge {
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  font-size: 0.68rem; font-weight: 800;
+  padding: 4px 11px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  white-space: nowrap; flex-shrink: 0;
 }
 .hl-badge--synced    { background: #e8f5e9; color: #2E7D32; }
 .hl-badge--submitted { background: #fff3e0; color: #d45222; }
 .hl-badge--draft     { background: #eceff1; color: #546e7a; }
+
+body[data-theme="dark"] {
+  .hl-badge--synced    { background: rgba(46,125,50,0.2);  color: #81c784; }
+  .hl-badge--submitted { background: rgba(242,120,75,0.2); color: #F2784B; }
+  .hl-badge--draft     { background: rgba(144,164,174,0.2); color: #b0bec5; }
+}

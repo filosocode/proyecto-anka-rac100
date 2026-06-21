@@ -1,69 +1,100 @@
-<ion-content class="login-content">
+<ion-content class="login-content" [fullscreen]="true">
 
-  <!-- Fondo superior con animación Lottie -->
-  <div class="login-hero fade-in">
-    <dotlottie-player
-      src="assets/animations/drone.lottie"
-      autoplay
-      loop
-      class="login-lottie">
-    </dotlottie-player>
-    <h1 class="login-logo fade-in-up delay-1">ANKA</h1>
-    <p class="login-tagline fade-in-up delay-2">RAC 100 — Formularios Operativos</p>
+  <!-- Fondo oscuro -->
+  <div class="login-bg" aria-hidden="true">
+    <div class="login-bg-glow"></div>
   </div>
 
-  <!-- Tarjeta del formulario -->
-  <div class="login-card fade-in-up delay-2">
+  <!-- Hero con dron -->
+  <div class="login-hero">
+    <app-drone size="lg" [rings]="true" class="fade-in"></app-drone>
+    <div class="login-brand fade-in-up delay-2">
+      <h1 class="login-logo">ANKA</h1>
+      <p class="login-tagline">RAC 100 · Formularios de Campo</p>
+    </div>
+  </div>
 
-    <h2 class="login-card-title">Iniciar sesión</h2>
+  <!-- Card de login -->
+  <div class="login-card fade-in-up delay-3">
 
-    <ion-item class="login-item" lines="none">
-      <ion-label position="stacked">Correo electrónico</ion-label>
-      <ion-input
-        type="email"
-        [(ngModel)]="email"
-        placeholder="usuario@empresa.co"
-        autocomplete="email">
-      </ion-input>
-    </ion-item>
+    <!-- Handle naranja -->
+    <div class="login-handle"></div>
 
-    <ion-item class="login-item" lines="none">
-      <ion-label position="stacked">Contraseña</ion-label>
-      <ion-input
-        type="password"
-        [(ngModel)]="password"
-        placeholder="••••••••"
-        autocomplete="current-password">
-      </ion-input>
-    </ion-item>
+    <!-- Encabezado -->
+    <div class="login-card-header">
+      <div class="login-card-badge">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+      </div>
+      <div>
+        <h2 class="login-card-title">Bienvenido</h2>
+        <p class="login-card-sub">Ingresa tus credenciales para continuar</p>
+      </div>
+    </div>
+
+    <div class="login-divider"></div>
+
+    <!-- Campo email -->
+    <div class="lf-group">
+      <label class="lf-label">Correo electrónico</label>
+      <div class="lf-wrap">
+        <ion-icon name="mail-outline" class="lf-icon"></ion-icon>
+        <ion-input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="usuario@empresa.co"
+          autocomplete="email"
+          class="lf-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Campo contraseña -->
+    <div class="lf-group">
+      <label class="lf-label">Contraseña</label>
+      <div class="lf-wrap">
+        <ion-icon name="lock-closed-outline" class="lf-icon"></ion-icon>
+        <ion-input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          class="lf-input">
+        </ion-input>
+      </div>
+    </div>
 
     @if (errorMessage) {
-      <ion-text color="danger">
-        <p class="login-error">{{ errorMessage }}</p>
-      </ion-text>
+      <div class="login-error scale-in">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        {{ errorMessage }}
+      </div>
     }
 
-    <ion-button
-      expand="block"
-      class="login-btn"
-      (click)="login()"
-      [disabled]="loading">
+    <!-- Botón ingresar -->
+    <ion-button expand="block" class="login-btn" (click)="login()" [disabled]="loading">
       @if (loading) {
-        <ion-spinner name="crescent"></ion-spinner>
+        <ion-spinner name="crescent" color="light"></ion-spinner>
       } @else {
         Ingresar
+        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
       }
     </ion-button>
 
-    <div class="login-footer-links">
-      <ion-button fill="clear" size="small" routerLink="/recuperar-contrasena">
+    <!-- Olvidaste contraseña — debajo del botón -->
+    <div class="login-links">
+      <ion-button fill="clear" size="small" class="lf-forgot" [routerLink]="['/recuperar-contrasena']">
         ¿Olvidaste tu contraseña?
       </ion-button>
     </div>
 
-    <ion-note class="login-demo">
-      Demo: admin&#64;anka.co / 1234 &nbsp;·&nbsp; piloto&#64;anka.co / 1234
-    </ion-note>
+    <!-- Demo hint chip -->
+    <div class="login-demo-chip">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <div class="login-demo-text">
+        <span><strong>Admin:</strong> admin&#64;anka.co / 1234</span>
+        <span><strong>Piloto:</strong> piloto&#64;anka.co / 1234</span>
+      </div>
+    </div>
 
   </div>
 

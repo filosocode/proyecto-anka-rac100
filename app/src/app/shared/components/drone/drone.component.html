@@ -1,0 +1,50 @@
+<div class="drone-wrap" [class]="'drone-wrap--' + size">
+
+  @if (rings) {
+    <div class="drone-rings" aria-hidden="true">
+      <div class="drone-ring r1"></div>
+      <div class="drone-ring r2"></div>
+      <div class="drone-ring r3"></div>
+    </div>
+  }
+
+  <div class="drone-float">
+    <svg class="drone-svg" viewBox="0 0 160 110" xmlns="http://www.w3.org/2000/svg">
+      <!-- Brazos -->
+      <line x1="80" y1="55" x2="26" y2="24"  stroke="#F2784B" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="80" y1="55" x2="134" y2="24" stroke="#F2784B" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="80" y1="55" x2="26" y2="86"  stroke="#F2784B" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="80" y1="55" x2="134" y2="86" stroke="#F2784B" stroke-width="4.5" stroke-linecap="round"/>
+      <!-- Hélices -->
+      <ellipse class="prop-a" cx="26"  cy="24" rx="19" ry="5.5" fill="#F2A285"/>
+      <ellipse class="prop-b" cx="134" cy="24" rx="19" ry="5.5" fill="#F2A285"/>
+      <ellipse class="prop-a" cx="26"  cy="86" rx="19" ry="5.5" fill="#F2A285"/>
+      <ellipse class="prop-b" cx="134" cy="86" rx="19" ry="5.5" fill="#F2A285"/>
+      <!-- Motores -->
+      <circle cx="26"  cy="24" r="7" fill="#2e4063"/>
+      <circle cx="134" cy="24" r="7" fill="#2e4063"/>
+      <circle cx="26"  cy="86" r="7" fill="#2e4063"/>
+      <circle cx="134" cy="86" r="7" fill="#2e4063"/>
+      <!-- Cuerpo -->
+      <rect x="56" y="42" width="48" height="26" rx="13" fill="#F25D27"/>
+      <rect x="60" y="46" width="40" height="18" rx="9"  fill="#d45222"/>
+      <!-- Cámara -->
+      <circle cx="80" cy="60" r="7"   fill="#111827"/>
+      <circle cx="80" cy="60" r="4.5" fill="#1e3a6b"/>
+      <circle cx="82" cy="58" r="1.8" fill="rgba(255,255,255,0.65)"/>
+      <!-- LEDs -->
+      <circle class="led" cx="66" cy="48" r="2.5" fill="#F2A285"/>
+      <circle class="led" cx="94" cy="48" r="2.5" fill="#F2A285"/>
+      <!-- Tren de aterrizaje -->
+      <line x1="68" y1="68" x2="65" y2="78" stroke="#F2784B" stroke-width="2.5"/>
+      <line x1="92" y1="68" x2="95" y2="78" stroke="#F2784B" stroke-width="2.5"/>
+      <line x1="60" y1="78" x2="74"  y2="78" stroke="#F2784B" stroke-width="3" stroke-linecap="round"/>
+      <line x1="86" y1="78" x2="100" y2="78" stroke="#F2784B" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  @if (label) {
+    <p class="drone-label">{{ label }}</p>
+  }
+
+</div>

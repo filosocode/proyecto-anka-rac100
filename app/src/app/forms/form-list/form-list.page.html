@@ -38,6 +38,7 @@
   }
 
   <!-- Lista de plantillas -->
+  <div class="fl-section-label">Formularios disponibles</div>
   <div class="fl-cards">
     @for (tpl of templates; track tpl.id; let i = $index) {
       <div class="fl-card fade-in-up" [style.animation-delay]="(i * 0.08) + 's'"

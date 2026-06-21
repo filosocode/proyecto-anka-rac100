@@ -1,127 +1,178 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
-
-/* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
-
-// ── Animaciones ────────────────────────────────────────────────────────────
+// ── Keyframes globales ──────────────────────────────────────────────────────
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.06); }
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes droneFloat {
+  0%, 100% { transform: translateY(0)     rotate(-4deg); }
+  50%       { transform: translateY(-16px) rotate(4deg); }
+}
+@keyframes propFlip {
+  0%, 100% { transform: scaleX(1);    opacity: 0.95; }
+  50%       { transform: scaleX(0.05); opacity: 0.35; }
+}
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.92); }
+  50%       { opacity: 0.8; transform: scale(1.08); }
+}
+@keyframes ledBlink {
+  0%, 100% { opacity: 1; }
+  48%, 52%  { opacity: 0.12; }
+}
+@keyframes labelPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+@keyframes overlayIn {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to   { opacity: 1; backdrop-filter: blur(6px); }
 }
 
-.fade-in-up  { animation: fadeInUp 0.45s cubic-bezier(.22,.68,0,1.2) both; }
-.fade-in     { animation: fadeIn  0.35s ease both; }
-.delay-1     { animation-delay: 0.1s; }
-.delay-2     { animation-delay: 0.2s; }
-.delay-3     { animation-delay: 0.3s; }
+.fade-in-up { animation: fadeInUp 0.5s cubic-bezier(0.22, 0.68, 0, 1.2) both; }
+.fade-in    { animation: fadeIn   0.4s ease both; }
+.scale-in   { animation: scaleIn  0.35s cubic-bezier(0.22, 0.68, 0, 1.2) both; }
+.delay-1    { animation-delay: 0.08s; }
+.delay-2    { animation-delay: 0.16s; }
+.delay-3    { animation-delay: 0.24s; }
+.delay-4    { animation-delay: 0.32s; }
 
-// ── Toolbar con gradiente ──────────────────────────────────────────────────
+// ── Componentes Ionic globales ──────────────────────────────────────────────
+
 ion-toolbar[color="primary"] {
-  --background: linear-gradient(135deg, #364A73 0%, #2e4063 100%);
+  --background: #364A73;
   --color: #ffffff;
 }
 
-// ── Cards globales ─────────────────────────────────────────────────────────
-ion-card {
-  border-radius: var(--anka-radius) !important;
-  box-shadow: var(--anka-card-shadow) !important;
+body[data-theme="dark"] ion-toolbar[color="primary"] {
+  --background: #162238;
+  --color: #e2eaf8;
 }
 
-// ── FAB global ─────────────────────────────────────────────────────────────
+ion-tab-bar {
+  --background: var(--anka-surface);
+  border-top: none;
+  box-shadow: 0 -3px 20px var(--anka-border);
+  height: 62px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+ion-tab-button {
+  --color:          var(--anka-text-muted);
+  --color-selected: #364A73;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+}
+body[data-theme="dark"] ion-tab-button {
+  --color-selected: #93b4e0;
+}
+
+ion-card {
+  border-radius: 18px !important;
+  box-shadow: var(--anka-card-shadow) !important;
+  background: var(--anka-surface) !important;
+}
+
+ion-item {
+  --background: var(--anka-surface);
+  --color: var(--anka-text);
+}
+
 ion-fab-button {
   --background: #F25D27;
   --background-activated: #d45222;
-  --box-shadow: 0 4px 16px rgba(242, 93, 39, 0.45);
+  --box-shadow: 0 6px 20px rgba(242, 93, 39, 0.5);
+  --border-radius: 16px;
 }
 
-// ── Tab bar ────────────────────────────────────────────────────────────────
-ion-tab-bar {
-  --background: #ffffff;
-  border-top: 1px solid rgba(54, 74, 115, 0.1);
-  box-shadow: 0 -2px 12px rgba(54, 74, 115, 0.08);
-}
-ion-tab-button {
-  --color:         #78909C;
-  --color-selected: #364A73;
-}
-
-// ── Botón primario ─────────────────────────────────────────────────────────
-ion-button[color="primary"] {
-  --background: #364A73;
-  --border-radius: 10px;
+ion-button {
+  --border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
 }
 ion-button[color="secondary"] {
-  --background: #F25D27;
-  --border-radius: 10px;
+  --background: linear-gradient(135deg, #F25D27, #F2784B);
+  --box-shadow: 0 4px 16px rgba(242, 93, 39, 0.4);
 }
 
-// ── Empty state helper ─────────────────────────────────────────────────────
+// ── Empty state ─────────────────────────────────────────────────────────────
 .empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 24px;
+  padding: 64px 32px;
   text-align: center;
+  animation: fadeIn 0.4s ease both;
 
-  dotlottie-player,
-  ion-icon.empty-icon {
-    font-size: 88px;
-    color: var(--anka-salmon);
-    margin-bottom: 16px;
+  .empty-icon {
+    font-size: 72px;
+    color: var(--anka-border);
+    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 8px var(--anka-border));
   }
-
-  h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--anka-navy);
-    margin: 0 0 8px;
-  }
-
-  p {
-    font-size: 0.88rem;
-    color: var(--ion-color-medium);
-    margin: 0;
-  }
+  h3 { font-size: 1.15rem; font-weight: 700; color: var(--anka-text); margin: 0 0 8px; }
+  p  { font-size: 0.88rem; color: var(--anka-text-muted); margin: 0; line-height: 1.5; }
 }
+
+// ── Login dark mode (fuera de component scope para que aplique correctamente) ─
+body[data-theme="dark"] .login-card {
+  background: #162238;
+  box-shadow: 0 -16px 56px rgba(0, 0, 0, 0.7);
+}
+body[data-theme="dark"] .lf-wrap {
+  background: #1e2f4a;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+body[data-theme="dark"] .lf-wrap:focus-within {
+  border-color: #F25D27;
+  box-shadow: 0 0 0 3px rgba(242, 93, 39, 0.15);
+}
+body[data-theme="dark"] .login-demo-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+body[data-theme="dark"] .login-divider {
+  background: rgba(255, 255, 255, 0.07);
+}
+body[data-theme="dark"] .login-card-title { color: #e2eaf8; }
+body[data-theme="dark"] .login-card-sub   { color: #6b8fb5; }
+body[data-theme="dark"] .lf-label         { color: #93b4e0; }
+body[data-theme="dark"] .lf-icon          { color: #6b8fb5; }
+body[data-theme="dark"] .login-demo-text span { color: #6b8fb5; }
+body[data-theme="dark"] .login-demo-text strong { color: #93b4e0; }
+
+// ── ion-content backgrounds (override shadow DOM reliably) ──────────────────
+.login-content { --background: radial-gradient(ellipse at 40% 18%, #1e3a6b 0%, #0d1826 70%) !important; }
+.fl-content,
+.ff-content,
+.pp-content,
+.um-content,
+.fmg-content,
+.ffd-content,
+.dm-content,
+.hl-content,
+.fd-content { --background: var(--anka-bg) !important; }
+
+// ── Scrollbar invisible ─────────────────────────────────────────────────────
+::-webkit-scrollbar { display: none; }
+* { -ms-overflow-style: none; scrollbar-width: none; }

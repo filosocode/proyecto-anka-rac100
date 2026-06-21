@@ -6,7 +6,7 @@ import {
   AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { airplaneOutline, peopleOutline, logOutOutline, documentTextOutline } from 'ionicons/icons';
+import { airplaneOutline, peopleOutline, logOutOutline, documentTextOutline, personCircleOutline } from 'ionicons/icons';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class AdminTabsPage {
     private router: Router,
     private alertCtrl: AlertController,
   ) {
-    addIcons({ airplaneOutline, peopleOutline, logOutOutline, documentTextOutline });
+    addIcons({ airplaneOutline, peopleOutline, logOutOutline, documentTextOutline, personCircleOutline });
   }
 
   async cerrarSesion(): Promise<void> {

@@ -13,6 +13,7 @@ import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'app-user-management',
   templateUrl: 'user-management.page.html',
+  styleUrl: './user-management.page.scss',
   standalone: true,
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,

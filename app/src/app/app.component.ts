@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet, ToastController } from '@ionic/angular/standalone';
 import { SyncService } from './shared/services/sync.service';
+import { ThemeService } from './shared/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,8 @@ import { SyncService } from './shared/services/sync.service';
 export class AppComponent implements OnInit {
   constructor(
     private syncService: SyncService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private themeService: ThemeService,   // inicializa el tema guardado
   ) {}
 
   ngOnInit(): void {

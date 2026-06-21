@@ -1,44 +1,71 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
-  IonList, IonItem, IonLabel, IonBadge, IonIcon, IonButton,
+  IonIcon, IonButton, IonInput,
   IonFab, IonFabButton, IonToggle,
   AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, trashOutline, createOutline, documentTextOutline, listOutline } from 'ionicons/icons';
+import {
+  addOutline, trashOutline, createOutline, documentTextOutline,
+  listOutline, checkmarkOutline, closeOutline,
+} from 'ionicons/icons';
 import { FormTemplate } from '../../shared/models/form.model';
 import { FormService } from '../../shared/services/form.service';
 
 @Component({
   selector: 'app-form-management',
   templateUrl: 'form-management.page.html',
+  styleUrl: './form-management.page.scss',
   standalone: true,
   imports: [
+    FormsModule,
     IonContent, IonHeader, IonTitle, IonToolbar,
-    IonList, IonItem, IonLabel, IonBadge, IonIcon, IonButton,
+    IonIcon, IonButton, IonInput,
     IonFab, IonFabButton, IonToggle,
   ],
 })
 export class FormManagementPage {
 
   templates: FormTemplate[] = [];
+  editandoId: string | null = null;
+  editandoTitulo = '';
 
   constructor(
     private formService: FormService,
     private alertCtrl: AlertController,
     private router: Router,
   ) {
-    addIcons({ addOutline, trashOutline, createOutline, documentTextOutline, listOutline });
+    addIcons({ addOutline, trashOutline, createOutline, documentTextOutline, listOutline, checkmarkOutline, closeOutline });
   }
 
   ionViewWillEnter(): void {
     this.templates = this.formService.getTemplates();
+    this.editandoId = null;
   }
 
   gestionarCampos(id: string): void {
     this.router.navigate(['/admin/forms', id, 'fields']);
+  }
+
+  iniciarEdicion(template: FormTemplate): void {
+    this.editandoId = template.id;
+    this.editandoTitulo = template.title;
+  }
+
+  cancelarEdicion(): void {
+    this.editandoId = null;
+    this.editandoTitulo = '';
+  }
+
+  guardarEdicion(template: FormTemplate): void {
+    const titulo = this.editandoTitulo.trim();
+    if (!titulo) return;
+    this.formService.saveTemplate({ ...template, title: titulo });
+    this.templates = this.formService.getTemplates();
+    this.editandoId = null;
   }
 
   async crearFormulario(): Promise<void> {
@@ -60,28 +87,6 @@ export class FormManagementPage {
               active: true,
             };
             this.formService.saveTemplate(template);
-            this.templates = this.formService.getTemplates();
-            return true;
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }
-
-  async editarFormulario(template: FormTemplate): Promise<void> {
-    const alert = await this.alertCtrl.create({
-      header: 'Editar Formulario',
-      inputs: [
-        { name: 'title', value: template.title, placeholder: 'Título del formulario', type: 'text' },
-      ],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            if (!data.title?.trim()) return false;
-            this.formService.saveTemplate({ ...template, title: data.title.trim() });
             this.templates = this.formService.getTemplates();
             return true;
           },

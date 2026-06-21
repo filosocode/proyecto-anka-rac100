@@ -8,15 +8,18 @@ import { addIcons } from 'ionicons';
 import {
   personCircleOutline, logOutOutline, settingsOutline,
   cloudDoneOutline, wifiOutline, cloudOfflineOutline,
+  sunnyOutline, moonOutline, shieldCheckmarkOutline,
 } from 'ionicons/icons';
 import { User } from '../../shared/models/user.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { FormService } from '../../shared/services/form.service';
+import { ThemeService } from '../../shared/services/theme.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: 'profile.page.html',
-  standalone: true, // Asegurado para compatibilidad
+  styleUrl: './profile.page.scss',
+  standalone: true,
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonButton, IonIcon,
@@ -34,9 +37,13 @@ export class ProfilePage {
     private formService: FormService,
     private router: Router,
     private alertCtrl: AlertController,
+    readonly theme: ThemeService,
   ) {
-    addIcons({ personCircleOutline, logOutOutline, settingsOutline,
-               cloudDoneOutline, wifiOutline, cloudOfflineOutline });
+    addIcons({
+      personCircleOutline, logOutOutline, settingsOutline,
+      cloudDoneOutline, wifiOutline, cloudOfflineOutline,
+      sunnyOutline, moonOutline, shieldCheckmarkOutline,
+    });
   }
 
   ionViewWillEnter(): void {
@@ -48,7 +55,7 @@ export class ProfilePage {
 
   get iniciales(): string {
     if (!this.user?.name) return '?';
-    return this.user.name.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase();
+    return this.user.name.split(' ').slice(0, 2).map(p => p[0] ?? '').join('').toUpperCase();
   }
 
   async editarPerfil(): Promise<void> {
@@ -56,8 +63,8 @@ export class ProfilePage {
     const alert = await this.alertCtrl.create({
       header: 'Editar Perfil',
       inputs: [
-        { name: 'name', value: this.user.name, placeholder: 'Nombre completo', type: 'text' },
-        { name: 'password', placeholder: 'Nueva contraseña (dejar vacío para no cambiar)', type: 'password' },
+        { name: 'name',     value: this.user.name,  placeholder: 'Nombre completo',  type: 'text' },
+        { name: 'password', placeholder: 'Nueva contraseña (vacío = sin cambio)', type: 'password' },
       ],
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
@@ -78,21 +85,18 @@ export class ProfilePage {
   }
 
   async confirmarCierreSesion(): Promise<void> {
-    // TODO 2: Mostrar un diálogo de confirmación antes de cerrar sesión.
     const alert = await this.alertCtrl.create({
       header: 'Cerrar sesión',
       message: '¿Estás seguro de que deseas salir?',
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
-        { 
-          text: 'Salir', 
-          role: 'destructive', 
+        {
+          text: 'Salir',
+          role: 'destructive',
           handler: () => {
             this.auth.logout();
-            // auth.logout() usualmente redirige, pero por seguridad, 
-            // nos aseguramos de ir al login:
             this.router.navigate(['/login']);
-          } 
+          },
         },
       ],
     });
@@ -100,7 +104,6 @@ export class ProfilePage {
   }
 
   irAPanelAdmin(): void {
-    // TODO 3: Navegar al panel de administración.
     this.router.navigate(['/admin/drones']);
   }
 

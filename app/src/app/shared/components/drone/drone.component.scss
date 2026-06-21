@@ -1,0 +1,96 @@
+.drone-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &--xs .drone-svg { width: 56px;  height: 39px; }
+  &--sm .drone-svg { width: 96px;  height: 66px; }
+  &--md .drone-svg { width: 140px; height: 97px; }
+  &--lg .drone-svg { width: 180px; height: 124px; }
+}
+
+// ── Anillos de radar ──────────────────────────────────────────────────────────
+.drone-rings {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.drone-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 93, 39, 0.22);
+}
+.r1 { width: 120px; height: 120px; animation: ringPulse 2.8s ease-in-out 0s   infinite; }
+.r2 { width: 200px; height: 200px; animation: ringPulse 2.8s ease-in-out 0.5s infinite; }
+.r3 { width: 290px; height: 290px; animation: ringPulse 2.8s ease-in-out 1s   infinite; }
+
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.92); }
+  50%       { opacity: 0.8; transform: scale(1.08); }
+}
+
+// ── Dron flotante ─────────────────────────────────────────────────────────────
+.drone-float {
+  animation: droneFloat 3.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(242, 93, 39, 0.5))
+          drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
+}
+
+@keyframes droneFloat {
+  0%, 100% { transform: translateY(0)    rotate(-4deg); }
+  50%       { transform: translateY(-16px) rotate(4deg); }
+}
+
+// ── Hélices ───────────────────────────────────────────────────────────────────
+.drone-svg {
+  display: block;
+  overflow: visible;
+
+  .prop-a {
+    animation: propFlip 0.11s linear infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .prop-b {
+    animation: propFlip 0.11s linear infinite reverse;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .led {
+    animation: ledBlink 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes propFlip {
+  0%, 100% { transform: scaleX(1);    opacity: 0.95; }
+  50%       { transform: scaleX(0.05); opacity: 0.35; }
+}
+
+@keyframes ledBlink {
+  0%, 100%  { opacity: 1; }
+  48%, 52%  { opacity: 0.12; }
+}
+
+// ── Etiqueta ──────────────────────────────────────────────────────────────────
+.drone-label {
+  margin: 14px 0 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  animation: labelPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes labelPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
