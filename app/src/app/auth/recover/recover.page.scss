@@ -1,0 +1,46 @@
+.rc-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 64px 28px 32px;
+}
+
+.rc-icon {
+  font-size: 72px;
+  color: var(--ion-color-primary);
+  margin-bottom: 20px;
+}
+
+.rc-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--anka-text);
+  margin-bottom: 12px;
+}
+
+.rc-text {
+  font-size: 0.92rem;
+  color: var(--anka-text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.rc-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--anka-text-label);
+  background: var(--anka-surface-2);
+  padding: 10px 18px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+
+  ion-icon { font-size: 1.1rem; }
+}
+
+.rc-btn {
+  width: 100%;
+  max-width: 320px;
+}
