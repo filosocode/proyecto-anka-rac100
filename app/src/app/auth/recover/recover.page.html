@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Recuperar Contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="rc-content">
+  <div class="rc-wrap fade-in-up">
+    <ion-icon name="lock-closed-outline" class="rc-icon"></ion-icon>
+    <h2 class="rc-title">¿Olvidaste tu contraseña?</h2>
+    <p class="rc-text">
+      Como ANKA RAC100 no cuenta con un servidor de autenticación externo,
+      el restablecimiento de contraseña debe ser gestionado directamente
+      por el administrador de tu empresa.
+    </p>
+    <div class="rc-contact">
+      <ion-icon name="mail-outline"></ion-icon>
+      <span>admin&#64;anka.co</span>
+    </div>
+    <ion-button expand="block" class="rc-btn" (click)="volver()">
+      Volver al inicio de sesión
+    </ion-button>
+  </div>
+</ion-content>

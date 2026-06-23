@@ -172,6 +172,7 @@ body[data-theme="dark"] .login-demo-text strong { color: #93b4e0; }
 .dm-content,
 .hl-content,
 .fd-content { --background: var(--anka-bg) !important; }
+.rc-content { --background: var(--anka-bg) !important; }
 
 // ── Scrollbar invisible ─────────────────────────────────────────────────────
 ::-webkit-scrollbar { display: none; }

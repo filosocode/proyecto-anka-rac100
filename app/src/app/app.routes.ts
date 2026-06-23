@@ -11,6 +11,12 @@ export const routes: Routes = [
       import('./auth/login/login.page').then(m => m.LoginPage),
   },
 
+  {
+    path: 'recuperar-contrasena',
+    loadComponent: () =>
+      import('./auth/recover/recover.page').then(m => m.RecoverPage),
+  },
+
   // Rutas del piloto con tabs (requiere autenticación)
   {
     path: 'home',
