@@ -92,49 +92,68 @@ export class FormService {
   // ─── Seed ─────────────────────────────────────────────────────────────────
 
   private seedDefaultTemplates(): void {
-    const existing = this.storage.get<unknown[]>(this.TEMPLATES_KEY);
-    if (existing && existing.length > 0) return;
+    const existing = this.storage.get<FormTemplate[]>(this.TEMPLATES_KEY);
 
-    const templates: FormTemplate[] = [
-      {
-        id: 'tpl-prevuelo',
-        title: 'Inspección Pre-Vuelo RAC 100',
+    if (!existing || existing.length === 0) {
+      const templates: FormTemplate[] = [
+        {
+          id: 'tpl-prevuelo',
+          title: 'Inspección Pre-Vuelo RAC 100',
+          active: true,
+          fields: [
+            { name: 'piloto', label: 'Nombre del Piloto', type: 'text', required: true },
+            { name: 'zona_operacion', label: 'Zona de Operación', type: 'text', required: true },
+            { name: 'condicion_clima', label: 'Condición Climática', type: 'select', required: true, options: ['Despejado', 'Nublado', 'Lluvia leve'] },
+            { name: 'bateria_carga', label: '% Batería inicial', type: 'number', required: true },
+            { name: 'observaciones', label: 'Observaciones', type: 'text', required: false },
+          ],
+        },
+        {
+          id: 'tpl-postvuelo',
+          title: 'Reporte Post-Vuelo RAC 100',
+          active: true,
+          fields: [
+            { name: 'piloto', label: 'Nombre del Piloto', type: 'text', required: true },
+            { name: 'duracion_vuelo', label: 'Duración del Vuelo (min)', type: 'number', required: true },
+            { name: 'incidentes', label: 'Incidentes', type: 'select', required: true, options: ['Ninguno', 'Falla técnica', 'Emergencia climática', 'Otro'] },
+            { name: 'bateria_restante', label: '% Batería restante', type: 'number', required: true },
+            { name: 'observaciones', label: 'Observaciones', type: 'text', required: false },
+          ],
+        },
+        {
+          id: 'tpl-autorizacion',
+          title: 'Solicitud de Autorización de Operación',
+          active: true,
+          fields: [
+            { name: 'piloto', label: 'Piloto Responsable', type: 'text', required: true },
+            { name: 'empresa', label: 'Empresa Operadora', type: 'text', required: true },
+            { name: 'fecha_operacion', label: 'Fecha de Operación', type: 'text', required: true },
+            { name: 'zona', label: 'Zona Geográfica', type: 'text', required: true },
+            { name: 'altura_max', label: 'Altura Máxima (m)', type: 'number', required: true },
+            { name: 'tipo_operacion', label: 'Tipo de Operación', type: 'select', required: true, options: ['Fotogrametría', 'Inspección', 'Topografía', 'Otro'] },
+          ],
+        },
+      ];
+      this.storage.set(this.TEMPLATES_KEY, templates);
+    }
+
+    // Asegura que el formulario de evidencia siempre exista
+    const all = this.storage.get<FormTemplate[]>(this.TEMPLATES_KEY) ?? [];
+    if (!all.find(t => t.id === 'tpl-evidencia')) {
+      all.push({
+        id: 'tpl-evidencia',
+        title: 'Registro de Evidencia en Campo',
         active: true,
         fields: [
           { name: 'piloto', label: 'Nombre del Piloto', type: 'text', required: true },
-          { name: 'zona_operacion', label: 'Zona de Operación', type: 'text', required: true },
-          { name: 'condicion_clima', label: 'Condición Climática', type: 'select', required: true, options: ['Despejado', 'Nublado', 'Lluvia leve'] },
-          { name: 'bateria_carga', label: '% Batería inicial', type: 'number', required: true },
-          { name: 'observaciones', label: 'Observaciones', type: 'text', required: false },
-        ],
-      },
-      {
-        id: 'tpl-postvuelo',
-        title: 'Reporte Post-Vuelo RAC 100',
-        active: true,
-        fields: [
-          { name: 'piloto', label: 'Nombre del Piloto', type: 'text', required: true },
-          { name: 'duracion_vuelo', label: 'Duración del Vuelo (min)', type: 'number', required: true },
-          { name: 'incidentes', label: 'Incidentes', type: 'select', required: true, options: ['Ninguno', 'Falla técnica', 'Emergencia climática', 'Otro'] },
-          { name: 'bateria_restante', label: '% Batería restante', type: 'number', required: true },
-          { name: 'observaciones', label: 'Observaciones', type: 'text', required: false },
-        ],
-      },
-      {
-        id: 'tpl-autorizacion',
-        title: 'Solicitud de Autorización de Operación',
-        active: true,
-        fields: [
-          { name: 'piloto', label: 'Piloto Responsable', type: 'text', required: true },
-          { name: 'empresa', label: 'Empresa Operadora', type: 'text', required: true },
-          { name: 'fecha_operacion', label: 'Fecha de Operación', type: 'text', required: true },
-          { name: 'zona', label: 'Zona Geográfica', type: 'text', required: true },
-          { name: 'altura_max', label: 'Altura Máxima (m)', type: 'number', required: true },
+          { name: 'fecha', label: 'Fecha de Operación', type: 'date', required: true },
+          { name: 'ubicacion', label: 'Ubicación GPS', type: 'location', required: true },
           { name: 'tipo_operacion', label: 'Tipo de Operación', type: 'select', required: true, options: ['Fotogrametría', 'Inspección', 'Topografía', 'Otro'] },
+          { name: 'evidencia', label: 'Foto / Evidencia', type: 'file', required: true },
+          { name: 'observaciones', label: 'Observaciones', type: 'text', required: false },
         ],
-      },
-    ];
-
-    this.storage.set(this.TEMPLATES_KEY, templates);
+      });
+      this.storage.set(this.TEMPLATES_KEY, all);
+    }
   }
 }
