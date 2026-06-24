@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANKA RAC100 — Instrucciones Entrega 3 (Semanas 7 y 8)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(135deg, #1565C0 0%, #0D47A1 100%);
+      color: white;
+      padding: 40px 48px;
+    }
+    .header-tag {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+    .header h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 2px; }
+    .header p  { font-size: 0.95rem; opacity: 0.85; margin-top: 6px; }
+    .header-meta {
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .meta-item { font-size: 0.82rem; opacity: 0.75; }
+    .meta-item strong { display: block; font-size: 0.9rem; opacity: 1; color: white; }
+
+    /* ── Layout ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+    /* ── Alerta de entregables ── */
+    .entregables-box {
+      background: #fff3cd;
+      border-left: 4px solid #FF6F00;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+    }
+    .entregables-box h3 { color: #b45309; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .entregables-box ul { padding-left: 20px; }
+    .entregables-box li { font-size: 0.9rem; color: #78350f; margin-bottom: 6px; }
+
+    /* ── Tarjetas de integrante ── */
+    .integrante-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 28px;
+    }
+    .card-header.andres  { background: linear-gradient(135deg, #1565C0, #1976D2); }
+    .card-header.ruben   { background: linear-gradient(135deg, #2E7D32, #388E3C); }
+    .card-header.camilo  { background: linear-gradient(135deg, #6A1B9A, #7B1FA2); }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+    .card-header-info h2 { color: white; font-size: 1.15rem; font-weight: 700; }
+    .card-header-info p  { color: rgba(255,255,255,0.8); font-size: 0.82rem; margin-top: 2px; }
+
+    .role-badge {
+      margin-left: auto;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .card-body { padding: 28px; }
+
+    /* ── Secciones de tarea ── */
+    .task-section { margin-bottom: 28px; }
+    .task-section:last-child { margin-bottom: 0; }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #718096;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .section-icon { font-size: 1rem; }
+
+    /* ── Tareas individuales ── */
+    .task {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+    }
+    .task-title {
+      font-weight: 600;
+      font-size: 0.92rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .task-num {
+      background: #1565C0;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .task-num.green  { background: #2E7D32; }
+    .task-num.purple { background: #6A1B9A; }
+
+    .task p   { font-size: 0.87rem; color: #4a5568; margin-bottom: 8px; }
+    .task p:last-child { margin-bottom: 0; }
+
+    .file-path {
+      display: inline-block;
+      background: #edf2f7;
+      border: 1px solid #cbd5e0;
+      color: #2d3748;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin: 4px 2px;
+    }
+
+    pre {
+      background: #1a202c;
+      color: #a0aec0;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      overflow-x: auto;
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+    pre .kw  { color: #63b3ed; }   /* keywords */
+    pre .str { color: #68d391; }   /* strings */
+    pre .cm  { color: #718096; }   /* comments */
+    pre .fn  { color: #fbd38d; }   /* functions */
+    pre .hl  { color: #f6e05e; }   /* highlight */
+
+    /* ── Checklist ── */
+    .checklist {
+      list-style: none;
+      margin-top: 12px;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.87rem;
+      color: #4a5568;
+      padding: 5px 0;
+    }
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #cbd5e0;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Tag de tipo ── */
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-code  { background: #bee3f8; color: #2c5282; }
+    .tag-doc   { background: #e9d8fd; color: #553c9a; }
+    .tag-build { background: #c6f6d5; color: #276749; }
+    .tag-bug   { background: #fed7d7; color: #9b2c2c; }
+
+    /* ── Resumen final ── */
+    .resumen {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+    .resumen h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      background: #f7fafc;
+      color: #718096;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    td { padding: 12px 14px; border-bottom: 1px solid #f0f4f8; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    .name-cell { font-weight: 600; }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .dot-blue   { background: #1565C0; }
+    .dot-green  { background: #2E7D32; }
+    .dot-purple { background: #6A1B9A; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.78rem;
+      color: #a0aec0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ HEADER -->
+<div class="header">
+  <p class="header-tag">Politécnico Grancolombiano · Énfasis en Programación Móvil · Grupo B04</p>
+  <h1>ANKA · RAC100</h1>
+  <p>Instrucciones de Trabajo — Entrega 3 Final · Semanas 7 y 8</p>
+  <div class="header-meta">
+    <div class="meta-item"><strong>Equipo</strong>SRM-EPM-G4</div>
+    <div class="meta-item"><strong>Framework</strong>Ionic + Angular (standalone)</div>
+    <div class="meta-item"><strong>Almacenamiento</strong>localStorage (offline-first)</div>
+    <div class="meta-item"><strong>Entrega</strong>Semana 7 — Escenario 7</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════ ENTREGABLES -->
+  <div class="entregables-box">
+    <h3>⚠️ Qué debe subir el grupo a la plataforma</h3>
+    <ul>
+      <li><strong>Documento de diseño final</strong> con conclusiones del proceso (aprendizajes, dificultades, recomendaciones)</li>
+      <li><strong>Documento de monetización y publicación</strong> (estrategias Google Play, modelo B2B, freemium)</li>
+      <li><strong>Enlace APK</strong> con la aplicación funcional completa (construida con Ionic/Capacitor)</li>
+      <li><strong>Enlace a video</strong> demostrando el funcionamiento de la app (máx. 5 minutos)</li>
+      <li>En el encuentro sincrónico: presentar el documento de diseño y demostrar la app en vivo</li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ ANDRÉS -->
+  <div class="integrante-card">
+    <div class="card-header andres">
+      <div class="avatar">AM</div>
+      <div class="card-header-info">
+        <h2>Andrés Eduardo Muñoz Roa</h2>
+        <p>Líder de Diseño Visual — Todo el trabajo de UI/UX</p>
+      </div>
+      <span class="role-badge">Visual + HTML + SCSS</span>
+    </div>
+
+    <div class="card-body">
+
+      <!-- PASO 1: Tema global -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">🎨</span>
+          Paso 1 — Tema de colores global (hacer primero, desbloquea todo lo demás)
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">1</span>
+            Definir paleta en <span class="file-path">src/theme/variables.scss</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <p>Reemplazar el contenido vacío del archivo con la paleta completa de ANKA:</p>
+          <pre><span class="cm">/* Paleta ANKA RAC100 */</span>
+:root {
+  <span class="hl">--ion-color-primary:         #1565C0;</span>
+  --ion-color-primary-rgb:     21, 101, 192;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade:   #1257a8;
+  --ion-color-primary-tint:    #2c74c6;
+
+  <span class="hl">--ion-color-secondary:       #FF6F00;</span>
+  --ion-color-secondary-rgb:   255, 111, 0;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-shade: #e06300;
+  --ion-color-secondary-tint:  #ff7d1a;
+
+  --ion-color-success:  #2E7D32;
+  --ion-color-warning:  #F57C00;
+  --ion-color-danger:   #C62828;
+  --ion-color-medium:   #78909C;
+  --ion-color-light:    #F5F7FA;
+
+  --ion-background-color:      #F0F4F8;
+  --ion-card-background:       #FFFFFF;
+  --ion-font-family:           'Segoe UI', system-ui, sans-serif;
+}</pre>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">2</span>
+            Agregar animaciones y utilidades en <span class="file-path">src/global.scss</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <pre><span class="cm">/* Al final del archivo global.scss */</span>
+@keyframes <span class="fn">fadeInUp</span> {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fadeInUp 0.4s ease both; }
+
+<span class="cm">/* Toolbar con gradiente */</span>
+ion-toolbar[color="primary"] {
+  --background: linear-gradient(135deg, #1565C0, #1976D2);
+}
+
+<span class="cm">/* Cards con sombra consistente */</span>
+ion-card {
+  border-radius: 14px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.09) !important;
+  margin: 10px 0 !important;
+}</pre>
+        </div>
+      </div>
+
+      <!-- PASO 2: Login -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">🔐</span>
+          Paso 2 — Pantalla de Login
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">3</span>
+            Rediseñar <span class="file-path">auth/login/login.page.scss</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <p>Objetivo: fondo con gradiente diagonal, tarjeta elevada, logo prominente con animación de entrada.</p>
+          <pre>.login-content {
+  --background: linear-gradient(160deg, #1565C0 0%, #0D47A1 50%, #1B5E20 100%);
+}
+.login-header {
+  padding: 60px 24px 32px;
+  animation: fadeInUp 0.5s ease;
+  .logo-title {
+    font-size: 3.5rem; font-weight: 900;
+    color: white; letter-spacing: 8px;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  }
+  .logo-sub { color: rgba(255,255,255,0.75); font-size: 0.8rem; margin-top: 4px; }
+}
+.login-card {
+  background: white; border-radius: 20px;
+  margin: 0 20px; padding: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  animation: fadeInUp 0.5s ease 0.15s both;
+}</pre>
+        </div>
+      </div>
+
+      <!-- PASO 3: Pantallas piloto -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">📋</span>
+          Paso 3 — Pantallas del Piloto
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">4</span>
+            <span class="file-path">forms/form-list/form-list.page.html</span> — Banner de bienvenida + cards atractivas
+            <span class="tag tag-code">código</span>
+          </div>
+          <p>Agregar un banner de bienvenida antes de las cards con el nombre del piloto. Las cards deben tener un icono grande, indicar el número de campos y tener color de acento en el borde izquierdo.</p>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Banner: "Bienvenido, [nombre]" con fondo primario ligero</li>
+            <li><div class="check-box"></div>Card: icono grande (document-text) con color primario</li>
+            <li><div class="check-box"></div>Badge con número de campos en la esquina</li>
+            <li><div class="check-box"></div>Subtexto "Toca para diligenciar" con flecha →</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">5</span>
+            <span class="file-path">forms/form-fill/form-fill.page.html</span> — Barra de progreso + campos mejorados
+            <span class="tag tag-code">código</span>
+          </div>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Agregar <code>&lt;ion-progress-bar&gt;</code> en el header que avance según campos completados</li>
+            <li><div class="check-box"></div>Botón GPS con color secondary (naranja) e icono prominent</li>
+            <li><div class="check-box"></div>Campo de foto: mostrar preview de imagen debajo del input (Rubén ya guarda el base64, tú lo muestras)</li>
+            <li><div class="check-box"></div>Botones "Guardar borrador" y "Enviar" con colores diferenciados (outline vs solid)</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">6</span>
+            <span class="file-path">history/history-list/history-list.page.html</span> — Timeline con estados
+            <span class="tag tag-code">código</span>
+          </div>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Items estilo card (no lista plana) con línea de color lateral según estado</li>
+            <li><div class="check-box"></div>Verde: Sincronizado · Amarillo: Enviado · Gris: Pendiente</li>
+            <li><div class="check-box"></div>Fecha formateada prominente en la esquina</li>
+            <li><div class="check-box"></div>Estado vacío: icono grande + texto "Sin registros aún"</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">7</span>
+            <span class="file-path">forms/form-draft/form-draft.page.html</span> — Borradores
+            <span class="tag tag-code">código</span>
+          </div>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Item con icono de borrador (pencil) y fecha destacada</li>
+            <li><div class="check-box"></div>Botón "Continuar" visible (no oculto en slide)</li>
+            <li><div class="check-box"></div>Estado vacío ilustrado: "No tienes borradores pendientes"</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">8</span>
+            <span class="file-path">profile/profile-page/profile.page.html</span> — Hero de perfil
+            <span class="tag tag-code">código</span>
+          </div>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Hero card con gradiente primario y avatar circular con iniciales del nombre</li>
+            <li><div class="check-box"></div>Sección de estadísticas: total enviados / borradores pendientes</li>
+            <li><div class="check-box"></div>Indicador de conexión: punto verde "En línea" o rojo "Sin conexión"</li>
+            <li><div class="check-box"></div>Botones de acción con iconos más descriptivos</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PASO 4: Panel Admin -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">⚙️</span>
+          Paso 4 — Panel de Administración
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">9</span>
+            <span class="file-path">admin/drone-management/drone-management.page.html</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Cards en lugar de lista plana, con icono de drone</li>
+            <li><div class="check-box"></div>Badge grande de estado: verde/naranja/gris según activo/mantenimiento/inactivo</li>
+            <li><div class="check-box"></div>Número de serie en tipografía monoespaciada</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">10</span>
+            <span class="file-path">admin/user-management/user-management.page.html</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Avatar circular con las 2 iniciales del nombre (fondo de color según rol)</li>
+            <li><div class="check-box"></div>Chip de rol: Admin=rojo, Piloto=azul</li>
+            <li><div class="check-box"></div>Email en texto secundario debajo del nombre</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">11</span>
+            <span class="file-path">admin/form-management/</span> y <span class="file-path">admin/form-fields/</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Cards con número de campos como badge</li>
+            <li><div class="check-box"></div>Toggle activo/inactivo visualmente integrado en la card</li>
+            <li><div class="check-box"></div>Chips de tipo de campo con colores (texto=azul, fecha=violeta, GPS=rojo, foto=verde)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DOCUMENTAL: Andrés -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">📄</span>
+          Aporte documental de Andrés — Actualizar Wireframes y Mockups
+        </div>
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num">12</span>
+            Actualizar mockups en el Documento de Diseño Final
+            <span class="tag tag-doc">documento</span>
+          </div>
+          <p>Una vez termines el trabajo visual, tomar capturas de pantalla de cada pantalla rediseñada y reemplazar los wireframes del documento de Semana 5 con los mockups finales reales. Secciones a actualizar:</p>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Capturas de Login, Form List, Form Fill, History, Profile</li>
+            <li><div class="check-box"></div>Capturas del panel Admin: Drones, Usuarios, Formularios</li>
+            <li><div class="check-box"></div>Actualizar la paleta de colores usada en el documento</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ RUBÉN -->
+  <div class="integrante-card">
+    <div class="card-header ruben">
+      <div class="avatar">RS</div>
+      <div class="card-header-info">
+        <h2>Rubén Darío Santos Mejía</h2>
+        <p>Funcionalidad pendiente — Evidencias · Sincronización · APK · Video</p>
+      </div>
+      <span class="role-badge">Código + Build + Video</span>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Bug fix -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">🐛</span>
+          Bugs a corregir
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num green">1</span>
+            Bug: Historial "Ver Detalle" no funciona
+            <span class="tag tag-bug">bug</span>
+          </div>
+          <p>Archivo: <span class="file-path">src/app/history/history-list/history-list.page.html</span> línea 33</p>
+          <pre><span class="cm"><!-- ANTES (roto): --></span>
+[queryParams]="<span class="hl">{ entryId: entry.id }</span>"
+
+<span class="cm"><!-- DESPUÉS (correcto): --></span>
+[queryParams]="<span class="hl">{ draftId: entry.id }</span>"</pre>
+        </div>
+      </div>
+
+      <!-- Evidencia foto -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">📷</span>
+          RF pendiente — Adjuntar evidencia fotográfica
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num green">2</span>
+            Guardar imagen como base64 en <span class="file-path">forms/form-fill/form-fill.page.ts</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <p>El método <code>onFileChange</code> actualmente solo guarda el nombre del archivo. Reemplazarlo con la lectura real en base64:</p>
+          <pre><span class="fn">onFileChange</span>(event: Event, fieldName: string): <span class="kw">void</span> {
+  <span class="kw">const</span> input = event.target <span class="kw">as</span> HTMLInputElement;
+  <span class="kw">if</span> (!input.files?.length) <span class="kw">return</span>;
+
+  <span class="kw">const</span> reader = <span class="kw">new</span> FileReader();
+  reader.onload = () => {
+    <span class="cm">// Guarda el base64 completo — se persiste en localStorage</span>
+    <span class="hl">this.formData[fieldName] = reader.result as string;</span>
+  };
+  reader.readAsDataURL(input.files[<span class="str">0</span>]);
+}</pre>
+          <p>Este base64 ya queda guardado automáticamente cuando el piloto guarda borrador o envía el formulario.</p>
+        </div>
+      </div>
+
+      <!-- Sincronización -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">🔄</span>
+          RF pendiente — Sincronización offline → online
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num green">3</span>
+            Implementar <span class="file-path">shared/services/sync.service.ts</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <p>El método <code>syncPending()</code> está vacío. Implementarlo para que marque los formularios enviados como sincronizados:</p>
+          <pre><span class="kw">async</span> <span class="fn">syncPending</span>(): Promise&lt;<span class="kw">void</span>&gt; {
+  <span class="kw">if</span> (!this.isOnline()) <span class="kw">return</span>;
+
+  <span class="kw">const</span> entries = this.storage.get&lt;any[]&gt;(<span class="str">'form_entries'</span>) ?? [];
+  <span class="kw">const</span> pendientes = entries.filter(e => e.status === <span class="str">'submitted'</span>).length;
+  <span class="kw">if</span> (pendientes === <span class="str">0</span>) <span class="kw">return</span>;
+
+  <span class="kw">const</span> actualizados = entries.map(e =>
+    e.status === <span class="str">'submitted'</span>
+      ? { ...e, status: <span class="str">'synced'</span>, updatedAt: <span class="kw">new</span> Date().toISOString() }
+      : e
+  );
+  this.storage.set(<span class="str">'form_entries'</span>, actualizados);
+}
+
+<span class="fn">getPendingCount</span>(): <span class="kw">number</span> {
+  <span class="kw">const</span> entries = this.storage.get&lt;any[]&gt;(<span class="str">'form_entries'</span>) ?? [];
+  <span class="kw">return</span> entries.filter(e => e.status === <span class="str">'submitted'</span>).length;
+}</pre>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num green">4</span>
+            Detectar reconexión en <span class="file-path">app/app.component.ts</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <p>Inyectar <code>SyncService</code> y <code>ToastController</code> en el <code>AppComponent</code> y escuchar el evento <code>online</code> del navegador:</p>
+          <pre><span class="cm">// En el constructor, agregar:</span>
+constructor(
+  <span class="kw">private</span> syncService: SyncService,
+  <span class="kw">private</span> toastCtrl: ToastController
+) {}
+
+<span class="fn">ngOnInit</span>(): <span class="kw">void</span> {
+  window.addEventListener(<span class="str">'online'</span>, () => this.<span class="fn">onConexionRecuperada</span>());
+}
+
+<span class="kw">async</span> <span class="fn">onConexionRecuperada</span>(): Promise&lt;<span class="kw">void</span>&gt; {
+  <span class="kw">const</span> pendientes = this.syncService.getPendingCount();
+  <span class="kw">if</span> (pendientes === <span class="str">0</span>) <span class="kw">return</span>;
+
+  <span class="kw">const</span> toast = <span class="kw">await</span> this.toastCtrl.create({
+    message: <span class="str">`Conexión restaurada. ${pendientes} formulario(s) pendientes.`</span>,
+    position: <span class="str">'top'</span>,
+    color: <span class="str">'success'</span>,
+    buttons: [{
+      text: <span class="str">'Sincronizar'</span>,
+      handler: () => this.syncService.<span class="fn">syncPending</span>()
+    }],
+    duration: <span class="str">8000</span>
+  });
+  <span class="kw">await</span> toast.present();
+}</pre>
+          <p>Recuerda importar <code>ToastController</code> de <code>@ionic/angular/standalone</code> y <code>SyncService</code> del servicio.</p>
+        </div>
+      </div>
+
+      <!-- APK y Video -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">📦</span>
+          Build y entregables multimedia
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num green">5</span>
+            Generar el APK con Ionic Capacitor
+            <span class="tag tag-build">build</span>
+          </div>
+          <p>Ejecutar los siguientes comandos en la carpeta <span class="file-path">app/</span> del proyecto:</p>
+          <pre><span class="cm"># 1. Compilar la app Angular</span>
+ionic build
+
+<span class="cm"># 2. Copiar los archivos a la plataforma Android</span>
+ionic capacitor copy android
+
+<span class="cm"># 3. Abrir Android Studio para generar el APK</span>
+ionic capacitor open android</pre>
+          <p>En Android Studio: Build → Build Bundle(s) / APK(s) → Build APK(s). El APK queda en <code>app/android/app/build/outputs/apk/debug/app-debug.apk</code>. Subirlo a Google Drive y generar enlace público.</p>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num green">6</span>
+            Grabar el video de demostración (máx. 5 minutos)
+            <span class="tag tag-build">video</span>
+          </div>
+          <p>Grabar la pantalla del celular o emulador mostrando estos dos flujos completos:</p>
+          <ul class="checklist">
+            <li><div class="check-box"></div><strong>Flujo piloto:</strong> Login → Ver formularios disponibles → Llenar formulario (seleccionar drone, GPS, adjuntar foto) → Guardar borrador → Retomar borrador → Enviar → Ver en historial</li>
+            <li><div class="check-box"></div><strong>Flujo admin:</strong> Login admin → Crear drone → Crear formulario nuevo → Agregar campos (texto, GPS, foto) → Activar/desactivar formulario → Gestionar usuarios</li>
+            <li><div class="check-box"></div><strong>Demostrar modo offline:</strong> Desactivar WiFi → llenar formulario → guardar → activar WiFi → mostrar toast de sincronización</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DOCUMENTAL: Rubén -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">📄</span>
+          Aporte documental de Rubén — Actualizar Diagramas UML y Flujo
+        </div>
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num green">7</span>
+            Actualizar diagramas técnicos en el Documento de Diseño Final
+            <span class="tag tag-doc">documento</span>
+          </div>
+          <p>Dado que Rubén implementa las 3 funcionalidades nuevas (foto, sync, recuperar contraseña), le corresponde actualizar los diagramas técnicos del documento:</p>
+          <ul class="checklist">
+            <li><div class="check-box"></div><strong>Diagrama de flujo:</strong> Agregar el flujo "Adjuntar evidencia" dentro del paso de llenado de formulario</li>
+            <li><div class="check-box"></div><strong>Diagrama de flujo:</strong> Agregar el flujo "Recuperar contraseña" desde la pantalla de Login</li>
+            <li><div class="check-box"></div><strong>Diagrama UML de clases:</strong> Actualizar <code>SyncService</code> con los métodos <code>syncPending()</code> y <code>getPendingCount()</code> ya implementados</li>
+            <li><div class="check-box"></div><strong>Diagrama UML de clases:</strong> Actualizar <code>FormEntry.data</code> para reflejar que el campo tipo <code>file</code> ahora almacena base64</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ CAMILO -->
+  <div class="integrante-card">
+    <div class="card-header camilo">
+      <div class="avatar">CB</div>
+      <div class="card-header-info">
+        <h2>Camilo Basante Torres</h2>
+        <p>Recuperar contraseña · Documento de diseño final · Documento de monetización</p>
+      </div>
+      <span class="role-badge">Código mínimo + Documentos</span>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Recuperar contraseña -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">🔑</span>
+          RF pendiente — Página de Recuperar Contraseña
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num purple">1</span>
+            Crear <span class="file-path">auth/recover/recover.page.ts</span> (página nueva)
+            <span class="tag tag-code">código</span>
+          </div>
+          <p>Crear el archivo y la carpeta <code>src/app/auth/recover/</code>. Como la app no tiene backend, la página solo muestra un mensaje de contacto:</p>
+          <pre><span class="kw">import</span> { Component } <span class="kw">from</span> <span class="str">'@angular/core'</span>;
+<span class="kw">import</span> { RouterLink } <span class="kw">from</span> <span class="str">'@angular/router'</span>;
+<span class="kw">import</span> {
+  IonContent, IonHeader, IonTitle, IonToolbar,
+  IonButton, IonIcon, IonButtons, IonBackButton
+} <span class="kw">from</span> <span class="str">'@ionic/angular/standalone'</span>;
+
+@Component({
+  selector: <span class="str">'app-recover'</span>,
+  standalone: <span class="kw">true</span>,
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar,
+            IonButton, IonIcon, IonButtons, IonBackButton],
+  template: <span class="str">`
+    &lt;ion-header&gt;
+      &lt;ion-toolbar color="primary"&gt;
+        &lt;ion-buttons slot="start"&gt;
+          &lt;ion-back-button defaultHref="/login"&gt;&lt;/ion-back-button&gt;
+        &lt;/ion-buttons&gt;
+        &lt;ion-title&gt;Recuperar Contraseña&lt;/ion-title&gt;
+      &lt;/ion-toolbar&gt;
+    &lt;/ion-header&gt;
+    &lt;ion-content class="ion-padding ion-text-center"&gt;
+      &lt;div style="padding-top: 60px"&gt;
+        &lt;ion-icon name="lock-closed-outline"
+                  style="font-size: 72px; color: var(--ion-color-primary)"&gt;&lt;/ion-icon&gt;
+        &lt;h2 style="margin-top: 16px"&gt;¿Olvidaste tu contraseña?&lt;/h2&gt;
+        &lt;p style="color: var(--ion-color-medium); margin-top: 12px"&gt;
+          Contacta al administrador de tu empresa para restablecer el acceso.
+        &lt;/p&gt;
+        &lt;p style="font-weight: 600; margin-top: 8px"&gt;admin&#64;anka.co&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/ion-content&gt;
+  `</span>
+})
+<span class="kw">export class</span> <span class="fn">RecoverPage</span> {}</pre>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num purple">2</span>
+            Registrar la ruta en <span class="file-path">app/app.routes.ts</span>
+            <span class="tag tag-code">código</span>
+          </div>
+          <p>Agregar la ruta antes de la ruta comodín <code>'**'</code>:</p>
+          <pre>{
+  path: <span class="str">'recuperar-contrasena'</span>,
+  loadComponent: () =>
+    <span class="kw">import</span>(<span class="str">'./auth/recover/recover.page'</span>)
+      .then(m => m.<span class="fn">RecoverPage</span>)
+},</pre>
+        </div>
+      </div>
+
+      <!-- Documento diseño final -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">📝</span>
+          Documento 1 — Diseño Final Actualizado (secciones a cargo de Camilo)
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num purple">3</span>
+            Sección: Ajustes a requerimientos
+            <span class="tag tag-doc">documento</span>
+          </div>
+          <p>Comparar los requerimientos de la Entrega 2 con lo que quedó implementado. Registrar todo cambio con su justificación. Ejemplo:</p>
+          <ul class="checklist">
+            <li><div class="check-box"></div>RF10 (Sincronización): se implementó de forma simulada (sin servidor externo) por restricción de arquitectura standalone. El sistema marca entradas como "sincronizadas" localmente al recuperar conexión.</li>
+            <li><div class="check-box"></div>RF-Foto: se implementó con base64 en localStorage en lugar de subida a servidor para mantener la arquitectura offline-first.</li>
+            <li><div class="check-box"></div>Recuperar contraseña: sin backend, se implementó como página informativa de contacto.</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num purple">4</span>
+            Sección: Conclusiones del proceso
+            <span class="tag tag-doc">documento</span>
+          </div>
+          <p>Escribir las conclusiones del equipo. Mínimo 3 párrafos que respondan:</p>
+          <ul class="checklist">
+            <li><div class="check-box"></div><strong>Aprendizajes:</strong> ¿Qué aprendieron sobre Ionic, Angular standalone, localStorage offline y Capacitor?</li>
+            <li><div class="check-box"></div><strong>Dificultades:</strong> ¿Qué fue más difícil? (ej: manejo de base64 para imágenes, flujos multi-paso en alertas, arquitectura sin servidor)</li>
+            <li><div class="check-box"></div><strong>Recomendaciones:</strong> ¿Qué harían diferente en un proyecto futuro? (ej: usar Ionic Storage en lugar de localStorage puro, integrar Firebase para sync real)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Documento monetización -->
+      <div class="task-section">
+        <div class="section-title">
+          <span class="section-icon">💰</span>
+          Documento 2 — Análisis de Monetización y Publicación
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num purple">5</span>
+            Sección: Publicación en Google Play Store
+            <span class="tag tag-doc">documento</span>
+          </div>
+          <ul class="checklist">
+            <li><div class="check-box"></div>Cuenta Google Play Developer: costo único de USD $25</li>
+            <li><div class="check-box"></div>Proceso: crear ficha de aplicación → subir APK/AAB → revisión de Google (3-7 días hábiles)</li>
+            <li><div class="check-box"></div>Requisitos: política de privacidad, capturas de pantalla, descripción en español</li>
+            <li><div class="check-box"></div>Distribución: se puede restringir a empresas (distribución interna por MDM) o publicar abierta</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <div class="task-title">
+            <span class="task-num purple">6</span>
+            Sección: Estrategias de monetización para ANKA
+            <span class="tag tag-doc">documento</span>
+          </div>
+          <p>ANKA RAC100 es una app de nicho B2B (empresas operadoras de drones). Analizar al menos 3 modelos:</p>
+          <ul class="checklist">
+            <li><div class="check-box"></div><strong>Modelo 1 — Licencia empresarial:</strong> precio anual por empresa (ej. COP $2.500.000/año), incluye todos los formularios, usuarios ilimitados y soporte. Ideal para operadoras de aerofotos e inspección.</li>
+            <li><div class="check-box"></div><strong>Modelo 2 — Freemium:</strong> versión gratuita con 1 formulario activo y 2 pilotos. Versión Pro (COP $80.000/mes) con formularios ilimitados, sincronización cloud y exportación PDF.</li>
+            <li><div class="check-box"></div><strong>Modelo 3 — Integración con sistemas externos:</strong> cobrar por API de sincronización con ERPs de empresas (SAP, etc.) o con plataformas de aerofotografía (Pix4D, DroneDeploy).</li>
+            <li><div class="check-box"></div><strong>Recomendación:</strong> para el contexto colombiano, el modelo de licencia empresarial anual es el más viable dado el nicho regulado (RAC 100 de la Aeronáutica Civil).</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ RESUMEN FINAL -->
+  <div class="resumen">
+    <h2>Resumen de responsabilidades</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Integrante</th>
+          <th>Código</th>
+          <th>Documento</th>
+          <th>Entregable final</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name-cell"><span class="dot dot-blue"></span>Andrés Muñoz</td>
+          <td>Diseño visual completo (11 pantallas — SCSS + HTML)</td>
+          <td>Actualizar mockups y capturas en documento de diseño</td>
+          <td>App visualmente terminada</td>
+        </tr>
+        <tr>
+          <td class="name-cell"><span class="dot dot-green"></span>Rubén Santos</td>
+          <td>Bug historial + Foto base64 + SyncService + Detector online + APK</td>
+          <td>Actualizar UML y diagramas de flujo en documento de diseño</td>
+          <td>APK + Video demo</td>
+        </tr>
+        <tr>
+          <td class="name-cell"><span class="dot dot-purple"></span>Camilo Basante</td>
+          <td>Página recuperar contraseña + registrar ruta (2 archivos)</td>
+          <td>Conclusiones del proceso + Documento de monetización completo</td>
+          <td>2 documentos Word/PDF</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  SRM-EPM-G4 · Andrés Muñoz · Rubén Santos · Camilo Basante · Politécnico Grancolombiano 2026
+</footer>
+
+</body>
+</html>
